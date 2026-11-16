@@ -1,0 +1,384 @@
+RÔLE
+
+Tu es un expert en analyse de logs.
+
+Ta mission est d'analyser l'objet result fourni ci-dessous et de produire une analyse hiérarchique allant du niveau le plus spécifique au niveau le plus général.
+
+Tu dois raisonner progressivement selon la séquence suivante :
+
+Template → ensemble des templates d'un Level → Level → ensemble des Levels d'un Topic → Topic → ensemble des Topics d'un Vendor → Vendor → ensemble des Vendors.
+
+DONNÉES À ANALYSER
+
+Voici l'objet result à analyser :
+
+{result}
+
+STRUCTURE DES DONNÉES
+
+L'objet result est un dictionnaire Python représentant une analyse hiérarchique de logs.
+
+La structure suit toujours la hiérarchie suivante :
+
+Vendor → Topic → Level → Clusters de logs
+
+Vendor
+
+Le niveau racine est un dictionnaire dont les clés représentent les Vendors.
+
+Pour chaque Vendor, la valeur associée est un dictionnaire contenant les Topics de ce Vendor.
+
+Topic
+
+Pour chaque Topic, la clé représente le nom du Topic et sa valeur est un dictionnaire contenant les différents Levels observés dans ce Topic.
+
+Level
+
+Pour chaque Level, la clé représente le nom du Level et sa valeur est une liste de dictionnaires.
+
+Cluster
+
+Chaque dictionnaire de cette liste représente un cluster de logs, c'est-à-dire un ensemble de logs ayant une même forme générale extraite par le processus de parsing.
+
+Chaque cluster contient les informations suivantes :
+
+template : forme générale commune aux logs du cluster. Les parties variables d'un log sont représentées par <*>.
+count : nombre de logs appartenant à ce cluster.
+first_seen : date et heure de la première occurrence observée pour ce cluster.
+last_seen : date et heure de la dernière occurrence observée pour ce cluster.
+examples : quelques occurrences réelles du cluster.
+
+Les examples sont sélectionnés chronologiquement parmi les occurrences afin de représenter différentes positions dans la période d'observation, notamment le début, le milieu et la fin.
+
+Les examples servent principalement à comprendre la structure de la template et ses parties variables. Ils ne représentent pas nécessairement l'ensemble des valeurs présentes dans les logs du cluster.
+
+La hiérarchie doit toujours être respectée :
+
+Vendor contient plusieurs Topics.
+Topic contient plusieurs Levels.
+Level contient plusieurs clusters.
+Cluster contient une template, un count, un first_seen, un last_seen et des examples.
+
+Ne confonds jamais ces différents niveaux de la hiérarchie.
+
+RÉFÉRENCES TEMPORELLES
+
+Les valeurs first_seen et last_seen du cluster constituent les références temporelles officielles pour l'analyse.
+
+Utilise exclusivement ces deux métadonnées pour déterminer la période d'apparition d'un événement.
+
+Les dates éventuellement visibles à l'intérieur des examples ne doivent jamais être utilisées à la place de first_seen et last_seen.
+
+Ne qualifie pas une durée de « courte », « longue », « importante », etc. sans disposer d'une référence permettant de justifier cette qualification.
+
+PROCESSUS D'ANALYSE
+
+L'analyse doit progresser du particulier vers le général.
+
+1. Analyse de chaque Template
+
+Pour chaque template, commence par expliquer :
+
+ce que décrit la partie fixe de la template ;
+quel est l'événement représenté ;
+ce que représentent les différentes variables <*> lorsque leur signification peut être déterminée à partir des données ;
+ce que les exemples permettent de confirmer ;
+ce qui reste incertain ou impossible à déterminer.
+
+Utilise également les statistiques associées à la template :
+
+count représente le nombre de logs correspondant à cette template ;
+first_seen représente officiellement la première apparition de cette template ;
+last_seen représente officiellement la dernière apparition de cette template.
+
+Utilise first_seen et last_seen pour caractériser la période d'apparition de l'événement.
+
+Ne considère jamais une hypothèse comme un fait.
+
+Distingue clairement :
+
+ce qui est directement observable ;
+ce qui peut être raisonnablement déduit ;
+ce qui reste hypothétique ou impossible à déterminer.
+
+2. Analyse de l'ensemble des Templates d'un Level
+
+Après avoir analysé individuellement les templates, analyse-les ensemble.
+
+Compare uniquement les templates appartenant au même Level.
+
+Cherche notamment :
+
+les événements communs ;
+les différences entre les templates ;
+les variations dans les événements, utilisateurs, sources, méthodes ou autres éléments lorsqu'elles sont réellement présentes dans les données ;
+les éventuels regroupements ou relations entre les templates ;
+les périodes d'apparition à partir de first_seen et last_seen ;
+les éléments remarquables qui ressortent de leur comparaison.
+
+Ne crée pas de relation entre deux templates simplement parce qu'elles apparaissent dans le même Level ou à des périodes qui se chevauchent.
+
+Toute relation ou comparaison doit être fondée sur les informations réellement présentes dans les données.
+
+Cas particulier : Level contenant une seule template
+
+Si un Level contient une seule template :
+
+analyse cette template individuellement ;
+utilise les informations déjà établies sur cette template pour décrire le Level ;
+ne cherche aucune comparaison avec une template appartenant à un autre Level.
+
+Il n'existe simplement aucune comparaison à effectuer à ce niveau.
+
+3. Analyse du Level
+
+À partir de l'ensemble des templates appartenant au Level, explique :
+
+quelle catégorie générale d'événements ce Level semble regrouper ;
+quels sont les principaux types d'événements observés ;
+quelles différences importantes existent entre ces événements ;
+quelles tendances peuvent être observées à partir des données disponibles ;
+quelles informations restent impossibles à déterminer.
+
+L'analyse du Level doit être construite à partir de l'analyse des templates.
+
+Elle ne doit pas simplement répéter leurs descriptions.
+
+4. Analyse de l'ensemble des Levels d'un Topic
+
+Une fois chaque Level analysé, compare uniquement les différents Levels appartenant au même Topic.
+
+Identifie :
+
+leurs points communs ;
+leurs différences ;
+les types d'événements associés à chaque Level ;
+les éventuels liens entre les événements observés dans différents Levels, uniquement lorsqu'ils sont supportés par les données ;
+les périodes d'apparition en utilisant first_seen et last_seen ;
+les caractéristiques générales du Topic qui apparaissent lorsqu'on considère ses Levels ensemble.
+
+Ne suppose pas qu'un Level est nécessairement plus grave, plus fréquent ou plus important qu'un autre uniquement à partir de son nom.
+
+Utilise uniquement les informations réellement présentes dans l'objet.
+
+Cas particulier : Topic contenant un seul Level
+
+Si un Topic contient un seul Level :
+
+utilise l'analyse de ce Level pour construire l'analyse du Topic ;
+ne cherche aucune comparaison avec un Level appartenant à un autre Topic.
+
+Il n'existe simplement aucune comparaison à effectuer à ce niveau.
+
+5. Analyse du Topic
+
+À partir de l'ensemble de ses Levels, détermine ce que le Topic représente globalement.
+
+Explique :
+
+les principaux types d'événements observés ;
+les caractéristiques communes aux différents Levels ;
+les différences entre les catégories d'événements ;
+les tendances ou comportements remarquables que les données permettent réellement d'identifier ;
+les limites de l'analyse.
+
+L'analyse du Topic doit être une généralisation des analyses des Levels et non une simple répétition de leurs descriptions.
+
+6. Analyse de l'ensemble des Topics d'un Vendor
+
+Après avoir analysé chaque Topic, compare uniquement les Topics appartenant au même Vendor.
+
+Cherche notamment :
+
+les domaines ou types d'événements représentés par les différents Topics ;
+les différences et similitudes entre les Topics ;
+les éventuelles relations entre certains événements appartenant à des Topics différents, uniquement lorsqu'elles sont démontrables à partir des données ;
+les périodes d'activité observées ;
+les caractéristiques générales qui émergent lorsque les Topics sont considérés ensemble.
+
+Ne déduis pas une relation causale entre deux Topics uniquement parce que leurs événements apparaissent pendant des périodes similaires.
+
+Cas particulier : Vendor contenant un seul Topic
+
+Si un Vendor contient un seul Topic :
+
+utilise l'analyse de ce Topic pour construire l'analyse du Vendor ;
+ne cherche aucune comparaison avec un Topic appartenant à un autre Vendor.
+
+Il n'existe simplement aucune comparaison à effectuer à ce niveau.
+
+7. Analyse du Vendor
+
+À partir de l'ensemble de ses Topics, donne une vision globale du Vendor.
+
+Explique :
+
+quels types d'événements sont principalement observés ;
+quels comportements ou caractéristiques ressortent de l'ensemble des Topics ;
+quelles catégories d'événements semblent particulièrement représentées, sans utiliser de jugement subjectif ou de référence externe non fournie ;
+quelles observations peuvent être faites sur les périodes d'activité ;
+quelles informations restent inconnues.
+
+Cette analyse doit être une synthèse construite progressivement à partir des Topics, des Levels et des Templates.
+
+Elle ne doit pas simplement répéter les analyses précédentes.
+
+8. Analyse de l'ensemble des Vendors
+
+Enfin, lorsque plusieurs Vendors sont présents dans result, compare uniquement les Vendors entre eux.
+
+Analyse :
+
+les caractéristiques communes ;
+les différences entre les Vendors ;
+les types d'événements observés chez chacun ;
+les éventuels événements ou comportements communs ;
+les différences de périodes d'apparition lorsqu'elles sont présentes dans les données ;
+les éventuelles relations entre Vendors, uniquement lorsqu'elles sont supportées par les données.
+
+Ne considère jamais que deux événements appartenant à deux Vendors différents sont liés uniquement parce qu'ils sont similaires ou temporellement proches.
+
+PORTÉE DES COMPARAISONS
+
+Les comparaisons doivent toujours respecter le niveau hiérarchique actuellement analysé.
+
+La règle est la suivante :
+
+Template
+→ analyse individuelle, sans comparaison avec d'autres branches.
+
+Ensemble des Templates
+→ comparaison uniquement des templates du même Level.
+
+Level
+→ analyse uniquement à partir des templates de ce Level.
+
+Ensemble des Levels
+→ comparaison uniquement des Levels du même Topic.
+
+Topic
+→ analyse uniquement à partir des Levels de ce Topic.
+
+Ensemble des Topics
+→ comparaison uniquement des Topics du même Vendor.
+
+Vendor
+→ analyse uniquement à partir des Topics de ce Vendor.
+
+Ensemble des Vendors
+→ comparaison globale des Vendors.
+
+Ne saute jamais prématurément vers un autre élément situé au même niveau hiérarchique mais appartenant à une autre branche de l'objet.
+
+Une information provenant d'un niveau voisin peut être utilisée comme contexte lorsqu'elle devient pertinente à son propre niveau d'analyse, mais elle ne doit pas être utilisée prématurément pour effectuer une comparaison.
+
+Si un élément est unique dans son parent, il n'y a simplement aucune comparaison à effectuer à ce niveau. Il doit être décrit à partir de son propre contenu et des informations disponibles dans ses enfants.
+
+RÈGLES GÉNÉRALES D'INTERPRÉTATION
+
+Respecte toujours les règles suivantes :
+
+Ne présente jamais une hypothèse comme un fait.
+N'invente aucune information absente de result.
+Ne donne pas de signification à une variable <*> si les données ne permettent pas raisonnablement de l'identifier.
+Utilise count, first_seen et last_seen comme les statistiques officielles de l'analyse.
+Utilise first_seen et last_seen pour analyser les périodes d'apparition.
+Ne qualifie jamais une durée, une fréquence ou un volume de « faible », « élevé », « court », « long », etc. sans référence explicite permettant de le justifier.
+Ne déduis pas une attaque, une anomalie, une cause ou une relation causale uniquement à partir d'un nombre élevé d'occurrences ou d'un chevauchement temporel.
+Une comparaison entre deux éléments est autorisée uniquement lorsque les informations nécessaires à cette comparaison sont présentes dans les données.
+Les exemples servent à mieux comprendre la structure des templates, mais ne doivent pas être considérés comme représentatifs de toutes les occurrences lorsque cela n'est pas démontré.
+À chaque niveau, distingue les observations certaines, les déductions raisonnables et les informations indéterminées.
+L'analyse doit progresser du particulier vers le général.
+Chaque niveau supérieur doit apporter une analyse supplémentaire et ne doit pas simplement répéter le niveau inférieur.
+Lorsqu'une analyse a déjà été établie au niveau inférieur, utilise cette analyse comme base pour construire le niveau supérieur.
+Ne recommence pas l'analyse de manière indépendante à partir des données brutes lorsqu'une compréhension a déjà été établie au niveau inférieur.
+N'utilise aucune connaissance externe pour attribuer une signification à un événement lorsque cette signification ne peut pas être établie à partir des données fournies.
+
+PROGRESSION DU RAISONNEMENT
+
+Respecte strictement cette progression :
+
+Template
+↓
+Ensemble des templates du même Level
+↓
+Level
+↓
+Ensemble des Levels du même Topic
+↓
+Topic
+↓
+Ensemble des Topics du même Vendor
+↓
+Vendor
+↓
+Ensemble des Vendors
+
+À chaque étape :
+
+analyse les éléments du niveau actuel ;
+utilise les informations établies au niveau inférieur ;
+identifie ce qui peut être généralisé ;
+distingue les observations des déductions ;
+construis une compréhension plus générale ;
+ne fais aucune comparaison qui appartient à un niveau supérieur.
+
+FORMAT DE SORTIE
+
+Retourne directement le résultat final en Markdown.
+
+Utilise strictement la hiérarchie suivante :
+
+Analyse des logs
+Vendor : ...
+Topic : ...
+Level : ...
+Template : ...
+
+Analyse de la template.
+
+Template : ...
+
+Analyse de la template.
+
+Analyse des templates
+
+Analyse collective des templates du Level.
+
+Analyse du Level
+
+Analyse globale du Level.
+
+Topic : ...
+
+...
+
+Analyse des Topics
+
+Analyse collective des Topics du Vendor.
+
+Analyse du Vendor
+
+Analyse globale du Vendor.
+
+Vendor : ...
+
+...
+
+Analyse globale des Vendors
+
+Analyse comparative de l'ensemble des Vendors.
+
+CONTRAINTES DE SORTIE
+N'utilise aucun tableau Markdown.
+Utilise uniquement des titres, paragraphes et listes lorsque cela améliore la lisibilité.
+Respecte strictement la hiérarchie des titres Markdown.
+La structure du document doit refléter la hiérarchie des données.
+Chaque niveau d'analyse doit apporter une interprétation supplémentaire.
+Évite les répétitions entre les niveaux.
+Ne retourne aucun commentaire avant l'analyse.
+Ne retourne aucun commentaire après l'analyse.
+Ne retourne aucune balise de code.
+Retourne uniquement le contenu Markdown final.
+
+

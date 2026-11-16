@@ -1,0 +1,52 @@
+[
+  {
+    "vendor": "mikrotik",
+    "topic": "routing",
+    "component": "ospf",
+    "title": "OSPF neighbor reste en Init ou ExStart",
+    "error": "L'adjacence OSPF ne passe pas à l'état Full",
+    "meaning": "Sur MikroTik RouterOS, une adjacence OSPF bloquée en Init ou ExStart indique un problème de communication ou de paramètres entre les routeurs voisins.",
+    "possible_causes": [
+      "MTU mismatch entre les interfaces des voisins",
+      "Area ID différente des deux côtés",
+      "Type de réseau incompatible (broadcast vs point-to-point)",
+      "Authentification OSPF mal configurée",
+      "Hello/Dead interval différents",
+      "Router ID en conflit (dupliqué)",
+      "Firewall filter bloquant le protocole OSPF (IP 89)"
+    ],
+    "symptoms": [
+      "Routes OSPF absentes de la table de routage",
+      "Neighbor bloqué en Init, 2-Way, ou ExStart",
+      "Pas d'échange de LSA",
+      "Connectivité inter-site perdue"
+    ],
+    "solutions": [
+      "Vérifier la MTU avec /interface print detail",
+      "S'assurer que les area ID correspondent",
+      "Vérifier le type de réseau avec /routing ospf interface print",
+      "Vérifier l'authentification OSPF",
+      "Aligner les timers hello et dead",
+      "Vérifier l'unicité des Router ID",
+      "Autoriser le protocole IP 89 dans le firewall"
+    ],
+    "verification": [
+      "Vérifier les neighbors avec /routing ospf neighbor print",
+      "Vérifier la configuration OSPF",
+      "Vérifier la MTU des interfaces",
+      "Capturer le trafic OSPF",
+      "Vérifier les logs de routage"
+    ],
+    "keywords": [
+      "mikrotik",
+      "OSPF",
+      "routing",
+      "neighbor",
+      "adjacency",
+      "MTU",
+      "area",
+      "Init",
+      "ExStart"
+    ]
+  }
+]

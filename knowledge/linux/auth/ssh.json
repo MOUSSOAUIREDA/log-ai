@@ -1,0 +1,93 @@
+[
+  {
+    "vendor": "linux",
+    "topic": "auth",
+    "component": "ssh",
+    "title": "SSH connection refused",
+    "error": "ssh: connect to host {host} port 22: Connection refused",
+    "meaning": "Le client SSH ne peut pas établir de connexion TCP vers le port 22 du serveur. Le service SSH n'est pas en écoute ou un firewall bloque le port.",
+    "possible_causes": [
+      "Le service SSH (sshd) n'est pas démarré",
+      "SSH écoute sur un port différent de 22",
+      "Firewall (iptables, ufw, firewalld) bloquant le port 22",
+      "SELinux bloquant le service SSH",
+      "Le serveur est éteint ou injoignable",
+      "Restriction ListenAddress dans sshd_config"
+    ],
+    "symptoms": [
+      "Connexion SSH refusée immédiatement",
+      "Pas de prompt de mot de passe",
+      "Timeout ou connexion refused",
+      "Impossible d'accéder au serveur à distance"
+    ],
+    "solutions": [
+      "Vérifier que sshd est démarré avec systemctl status sshd",
+      "Vérifier le port d'écoute avec ss -tlnp | grep ssh",
+      "Vérifier les règles firewall (iptables -L, ufw status, firewall-cmd)",
+      "Vérifier sshd_config pour ListenAddress et Port",
+      "Vérifier SELinux avec getenforce",
+      "Redémarrer sshd après modification de la config"
+    ],
+    "verification": [
+      "Vérifier le statut du service sshd",
+      "Vérifier le port d'écoute",
+      "Vérifier les logs SSH avec journalctl -u sshd",
+      "Tester la connectivité réseau avec ping et telnet",
+      "Vérifier la configuration sshd_config"
+    ],
+    "keywords": [
+      "linux",
+      "SSH",
+      "connection refused",
+      "sshd",
+      "firewall",
+      "port 22",
+      "remote access"
+    ]
+  },
+  {
+    "vendor": "linux",
+    "topic": "auth",
+    "component": "ssh",
+    "title": "Permission denied (publickey)",
+    "error": "Permission denied (publickey,password)",
+    "meaning": "L'authentification SSH a échoué. Le serveur a refusé la clé publique ou le mot de passe fourni. Cela peut être dû à une mauvaise configuration des clés, des permissions incorrectes, ou une politique d'authentification restrictive.",
+    "possible_causes": [
+      "Clé publique non présente dans ~/.ssh/authorized_keys",
+      "Permissions incorrectes sur ~/.ssh ou authorized_keys (doit être 600)",
+      "Authentification par mot de passe désactivée (PasswordAuthentication no)",
+      "Clé privée incompatible (format, algorithme)",
+      "L'utilisateur est désactivé ou son shell est /bin/false",
+      "SELinux empêchant la lecture de authorized_keys"
+    ],
+    "symptoms": [
+      "Échec de connexion après le prompt de mot de passe",
+      "Message 'Permission denied'",
+      "Connexion refusée même avec la bonne clé",
+      "Impossible de se connecter en root"
+    ],
+    "solutions": [
+      "Vérifier que la clé publique est dans ~/.ssh/authorized_keys",
+      "Vérifier les permissions : chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys",
+      "Vérifier sshd_config pour PasswordAuthentication et PubkeyAuthentication",
+      "Vérifier le format de la clé (PEM vs OpenSSH)",
+      "Vérifier que l'utilisateur existe et a un shell valide",
+      "Vérifier SELinux avec restorecon -R ~/.ssh"
+    ],
+    "verification": [
+      "Vérifier authorized_keys",
+      "Vérifier les permissions avec ls -la ~/.ssh",
+      "Vérifier sshd_config",
+      "Tester avec ssh -v pour le debug",
+      "Vérifier les logs SSH"
+    ],
+    "keywords": [
+      "linux",
+      "SSH",
+      "permission denied",
+      "publickey",
+      "authorized_keys",
+      "authentication"
+    ]
+  }
+]

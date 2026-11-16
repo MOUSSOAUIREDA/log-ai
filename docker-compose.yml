@@ -1,0 +1,52 @@
+services:
+  python-api:
+    build: 
+      context: . 
+      dockerfile: Dockerfile
+    
+    depends_on: 
+        - qdrant
+
+    ports:
+      - "8001:8001"
+    env_file : 
+       - .env
+  
+  # Les autres services peuvent utiliser "redis" comme hostname pour accéder au serveur
+  redis : 
+    image : redis:7 # Docker va utiliser une image officielle contenant le serveur Redis
+    ports : 
+       - "6379:6379"
+  
+  celery_worker : 
+    build : 
+      context: . 
+      dockerfile: Dockerfile.worker
+  # Indique à Celery ou trouver l'application Celery
+  # Demande à Celery de lancer le worker 
+  # Rendre les logs du worker en niveau info
+  # Le worker lorsqu'il est lancé : 
+  # se connecte au broker redis 
+  # attend les taches dans la queue 
+  # récupère une tache lorsqu'elle arrive
+  # exécute la fonction correspondate 
+  # affiche les informations de fonctionnement en mode info 
+    command: celery -A app.celery_app worker --loglevel=info # Au démarrage du conteneur, Docker compose va utiliser 
+    # cette commande au lieu de lancer la commande de serveur FadtAPI
+    depends_on : 
+        - redis      
+    env_file : 
+       - .env       # Charger les variables présentes dans .env dans l'environnement du conteneur 
+
+  qdrant : 
+    image : qdrant/qdrant:latest
+    environment:
+      QDRANT_SERVICE_API_KEY: ${QDRANT_API_KEY}
+    ports : 
+       - "6333:6333" 
+       - "6334:6334"
+    volumes : 
+       - qdrant_storage:/qdrant/storage
+
+volumes : 
+  qdrant_storage : 

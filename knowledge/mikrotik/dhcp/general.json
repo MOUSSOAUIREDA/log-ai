@@ -1,0 +1,90 @@
+[
+  {
+    "vendor": "mikrotik",
+    "topic": "dhcp",
+    "component": "server",
+    "title": "Client ne reçoit pas d'adresse IP",
+    "error": "Le client envoie des DHCP Discover mais ne reçoit pas d'offre",
+    "meaning": "Le serveur DHCP MikroTik ne répond pas aux requêtes DHCP Discover du client. Cela peut être dû à une mauvaise configuration du serveur, du relay, ou du réseau.",
+    "possible_causes": [
+      "Le serveur DHCP n'est pas activé sur le bon interface",
+      "Le pool d'adresses est épuisé",
+      "Un autre serveur DHCP (rogue) répond avant celui de MikroTik",
+      "Le client est sur un VLAN différent sans DHCP relay",
+      "Firewall filter bloquant le port UDP 67/68",
+      "Adresse MAC du client dans la liste de blocage"
+    ],
+    "symptoms": [
+      "Client avec adresse APIPA (169.254.x.x)",
+      "Message 'DHCP failed' sur le client",
+      "Aucune lease visible dans /ip dhcp-server lease",
+      "Requêtes DHCP Discover visibles dans les logs"
+    ],
+    "solutions": [
+      "Vérifier que le serveur DHCP est lié au bon interface avec /ip dhcp-server print",
+      "Vérifier l'état du pool avec /ip pool print used",
+      "Scanner le réseau pour détecter un serveur DHCP rogue",
+      "Vérifier la configuration VLAN et DHCP relay",
+      "Vérifier les règles firewall pour UDP 67/68",
+      "Vérifier la liste d'adresses MAC bloquées"
+    ],
+    "verification": [
+      "Vérifier la configuration DHCP server",
+      "Vérifier les leases actives",
+      "Capturer le trafic DHCP avec Packet Sniffer",
+      "Vérifier les logs DHCP",
+      "Tester avec un autre client"
+    ],
+    "keywords": [
+      "mikrotik",
+      "DHCP",
+      "IP address",
+      "lease",
+      "pool",
+      "DHCP Discover",
+      "rogue"
+    ]
+  },
+  {
+    "vendor": "mikrotik",
+    "topic": "dhcp",
+    "component": "lease",
+    "title": "Conflit d'adresse IP détecté",
+    "error": "Duplicate IP address detected",
+    "meaning": "Deux équipements utilisent la même adresse IP sur le réseau. MikroTik détecte ce conflit via ARP et signale le problème.",
+    "possible_causes": [
+      "Adresse IP statique configurée manuellement en dehors du pool DHCP",
+      "Deux serveurs DHCP avec des pools qui se chevauchent",
+      "Lease statique mal configurée",
+      "Client avec IP fixe rentrant en conflit avec une lease DHCP",
+      "Clonage d'adresse MAC"
+    ],
+    "symptoms": [
+      "Perte de connectivité intermittente",
+      "Messages ARP conflict dans les logs",
+      "Deux MAC différentes pour la même IP dans la table ARP",
+      "Services instables"
+    ],
+    "solutions": [
+      "Identifier les MAC en conflit avec /ip arp print",
+      "Réserver l'adresse en lease statique si nécessaire",
+      "Modifier l'adresse IP statique du client",
+      "Vérifier que les pools DHCP ne se chevauchent pas",
+      "Activer l'ARP reply-only sur l'interface"
+    ],
+    "verification": [
+      "Vérifier la table ARP",
+      "Vérifier les leases DHCP",
+      "Scanner le réseau avec IP Scan ou Netwatch",
+      "Vérifier les configurations IP statiques des clients"
+    ],
+    "keywords": [
+      "mikrotik",
+      "DHCP",
+      "IP conflict",
+      "duplicate IP",
+      "ARP",
+      "lease"
+    ]
+  }
+]

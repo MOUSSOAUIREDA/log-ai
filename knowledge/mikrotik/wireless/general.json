@@ -1,0 +1,98 @@
+[
+  {
+    "vendor": "mikrotik",
+    "topic": "wireless",
+    "component": "wifi",
+    "title": "Clients WiFi ne se connectent pas",
+    "error": "Les clients voient le SSID mais ne parviennent pas à s'authentifier",
+    "meaning": "Le point d'accès MikroTik diffuse le SSID mais l'authentification échoue. Cela peut être dû à une mauvaise configuration de la sécurité, de la fréquence, ou des paramètres de bande.",
+    "possible_causes": [
+      "Mot de passe WiFi incorrect ou changé",
+      "Mode de sécurité incompatible (WPA2 vs WPA3)",
+      "Fréquence utilisée non supportée par le client",
+      "Bande 5GHz utilisée mais le client ne supporte que le 2.4GHz",
+      "Nombre maximal de clients atteint",
+      "Problème de certificat en mode WPA2-Enterprise",
+      "Interférences ou canal surchargé"
+    ],
+    "symptoms": [
+      "SSID visible mais connexion échoue",
+      "Message 'Authentication failed' sur le client",
+      "Client bloqué en 'Obtaining IP address'",
+      "Déconnexions fréquentes",
+      "Faible débit malgré la connexion"
+    ],
+    "solutions": [
+      "Vérifier le mot de passe et le mode de sécurité avec /interface wireless print",
+      "S'assurer que le client supporte la bande et la fréquence configurées",
+      "Vérifier le nombre maximal de clients autorisés",
+      "Tester avec une sécurité WPA2-Personal simple",
+      "Changer de canal pour éviter les interférences",
+      "Vérifier la puissance de transmission et les antennes"
+    ],
+    "verification": [
+      "Vérifier la configuration wireless",
+      "Vérifier les clients connectés avec /interface wireless registration-table print",
+      "Analyser le spectre avec Frequency Scanner",
+      "Vérifier les logs wireless",
+      "Tester avec différents appareils"
+    ],
+    "keywords": [
+      "mikrotik",
+      "wireless",
+      "wifi",
+      "SSID",
+      "authentication",
+      "WPA2",
+      "WPA3",
+      "5GHz",
+      "2.4GHz"
+    ]
+  },
+  {
+    "vendor": "mikrotik",
+    "topic": "wireless",
+    "component": "capsman",
+    "title": "CAPsMAN ne détecte pas les CAP",
+    "error": "Les points d'accès CAP ne s'enregistrent pas auprès du contrôleur CAPsMAN",
+    "meaning": "CAPsMAN (Controlled Access Point system Manager) est le système de gestion centralisée des AP MikroTik. Si les CAP ne s'enregistrent pas, ils ne peuvent pas être gérés ni diffuser le WiFi.",
+    "possible_causes": [
+      "Les CAP et le CAPsMAN ne sont pas sur le même Layer 2",
+      "Le discovery interface n'est pas configuré correctement",
+      "Les certificats ne correspondent pas (mode sécurisé)",
+      "Les CAP sont en mode standalone au lieu de CAP",
+      "Firewall bloquant le protocole CAPsMAN (UDP 5246/5247)",
+      "Version RouterOS incompatible entre CAP et CAPsMAN"
+    ],
+    "symptoms": [
+      "Aucun CAP visible dans /caps-man remote-cap print",
+      "Points d'accès non fonctionnels",
+      "SSID non diffusé par les CAP",
+      "Messages de discovery timeout dans les logs"
+    ],
+    "solutions": [
+      "Vérifier que les CAP peuvent joindre le CAPsMAN en Layer 2",
+      "Vérifier la configuration discovery avec /caps-man manager print",
+      "S'assurer que les interfaces sont dans le bon bridge/VLAN",
+      "Vérifier les certificats si le mode sécurisé est utilisé",
+      "Vérifier que les CAP sont bien en mode CAP (pas standalone)",
+      "Uniformiser les versions RouterOS"
+    ],
+    "verification": [
+      "Vérifier la configuration CAPsMAN manager",
+      "Vérifier les remote-caps",
+      "Vérifier la connectivité Layer 2",
+      "Vérifier les logs sur le CAPsMAN et les CAP",
+      "Tester la découverte avec /caps-man manager interface print"
+    ],
+    "keywords": [
+      "mikrotik",
+      "CAPsMAN",
+      "CAP",
+      "wireless",
+      "controller",
+      "discovery",
+      "Layer 2"
+    ]
+  }
+]

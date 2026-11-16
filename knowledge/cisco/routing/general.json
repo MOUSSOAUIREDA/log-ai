@@ -1,0 +1,78 @@
+[
+  {
+    "vendor": "cisco",
+    "topic": "routing",
+    "component": "ospf",
+    "title": "OSPF neighbor down",
+    "error": "%OSPF-5-ADJCHG: Process {process_id}, Nbr {neighbor_ip} from FULL to DOWN",
+    "meaning": "L'adjacence OSPF avec le voisin est tombée. Les routes apprises via ce voisin ne sont plus disponibles.",
+    "possible_causes": [
+      "Perte de connectivité de couche 2",
+      "Incompatibilité des paramètres OSPF (area, timers, auth)",
+      "MTU mismatch",
+      "Interface OSPF désactivée sur le voisin"
+    ],
+    "symptoms": [
+      "Routes OSPF disparues",
+      "Trafic redirigé via chemins de secours",
+      "Perte de connectivité inter-site"
+    ],
+    "solutions": [
+      "Vérifier la connectivité de couche 2",
+      "Vérifier les paramètres OSPF avec show ip ospf neighbor",
+      "Aligner la MTU",
+      "Vérifier l'authentification OSPF"
+    ],
+    "verification": [
+      "Vérifier les neighbors OSPF",
+      "Vérifier la configuration OSPF",
+      "Vérifier la connectivité Layer 2"
+    ],
+    "keywords": [
+      "cisco",
+      "OSPF",
+      "routing",
+      "neighbor down",
+      "adjacency",
+      "FULL to DOWN"
+    ]
+  },
+  {
+    "vendor": "cisco",
+    "topic": "routing",
+    "component": "hsrp",
+    "title": "HSRP state change (failover)",
+    "error": "%HSRP-5-STATECHANGE: Interface {interface} Grp {group} state {old_state} -> {new_state}",
+    "meaning": "L'état du groupe HSRP a changé, indiquant un basculement ou une récupération du routeur actif.",
+    "possible_causes": [
+      "Panne du routeur actif",
+      "Récupération du routeur actif",
+      "Changement de priorité HSRP",
+      "Problème sur l'interface trackée"
+    ],
+    "symptoms": [
+      "Basculement de la passerelle par défaut",
+      "Changement de l'adresse MAC virtuelle",
+      "Perte de paquets potentielle pendant le failover"
+    ],
+    "solutions": [
+      "Vérifier l'état HSRP avec show standby brief",
+      "Vérifier la connectivité entre les routeurs HSRP",
+      "Vérifier les interfaces trackées",
+      "Analyser les logs pour la cause"
+    ],
+    "verification": [
+      "Vérifier l'état HSRP",
+      "Vérifier les interfaces trackées",
+      "Vérifier les logs"
+    ],
+    "keywords": [
+      "cisco",
+      "HSRP",
+      "redundancy",
+      "failover",
+      "gateway",
+      "first hop"
+    ]
+  }
+]

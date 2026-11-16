@@ -1,0 +1,19 @@
+fastapi
+
+uvicorn[standard] # installer uvicorn avec ses dépendances optionnelles considérées comme recommandées
+
+requests 
+
+clickhouse-connect
+
+celery 
+
+redis
+
+drain3==0.9.11
+
+sentence-transformers
+
+qdrant-client 
+
+pydantic

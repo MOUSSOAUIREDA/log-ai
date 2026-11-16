@@ -1,0 +1,52 @@
+[
+  {
+    "vendor": "fortinet",
+    "topic": "vpn",
+    "component": "IPsec",
+    "title": "Tunnel IPsec ne monte pas",
+    "error": "Le tunnel VPN IPsec reste en état down ou ne passe pas à Phase 2",
+    "meaning": "Le tunnel IPsec entre deux points FortiGate (ou FortiGate et un autre équipement) ne s'établit pas. Cela empêche le trafic inter-site de transiter via le VPN.",
+    "possible_causes": [
+      "Incompatibilité des proposals Phase 1 (IKE) : encryption, hash, DH group",
+      "Incompatibilité des proposals Phase 2 (IPsec) : encryption, hash, PFS",
+      "Clé pré-partagée (PSK) incorrecte",
+      "Adresse IP peer incorrecte ou injoignable",
+      "NAT-T non activé alors que le peer est derrière un NAT",
+      "Firewall bloquant UDP 500/4500",
+      "Lifetime mismatch entre les deux peers"
+    ],
+    "symptoms": [
+      "Tunnel en état down dans l'interface VPN",
+      "Pas de trafic encapsulé",
+      "Logs IKE indiquant 'no proposal chosen'",
+      "Phase 1 établie mais Phase 2 échoue"
+    ],
+    "solutions": [
+      "Vérifier que les proposals Phase 1 correspondent exactement des deux côtés",
+      "Vérifier que les proposals Phase 2 correspondent",
+      "Vérifier la PSK",
+      "Vérifier la connectivité IP vers le peer",
+      "Activer NAT-T si le peer est derrière un NAT",
+      "Vérifier les lifetimes IKE et IPsec",
+      "Utiliser 'diagnose vpn ike log-filter' et 'diagnose debug application ike -1'"
+    ],
+    "verification": [
+      "Vérifier la configuration VPN IPsec",
+      "Vérifier les logs IKE avec 'get vpn ipsec tunnel summary'",
+      "Utiliser le debug IKE",
+      "Vérifier la connectivité avec ping vers le peer",
+      "Vérifier les SA avec 'diagnose vpn tunnel list'"
+    ],
+    "keywords": [
+      "fortinet",
+      "IPsec",
+      "VPN",
+      "tunnel",
+      "IKE",
+      "Phase 1",
+      "Phase 2",
+      "proposal",
+      "PSK"
+    ]
+  }
+]

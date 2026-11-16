@@ -1,0 +1,20 @@
+# fournit au worker les outils nécessaires pour : 
+## établir la connexion 
+## envoyer des requêtes SQL 
+## récupérer les résultats 
+clickhouse-connect
+
+# Bibliothèque Python pour créer et envoyer une tache 
+# permettre l'exécution avec celeryworker 
+celery 
+
+# Bibliothèque python permet de créer un client pour communiquer avec le serveur Redis 
+redis
+pydantic
+# On va utiliser TemplateMiner qui : 
+# recoit les messages un par un 
+# apprend les templates 
+# retourne le template détecté et la taille du cluster 
+drain3==0.9.11
+
+requests 

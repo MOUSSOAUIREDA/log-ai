@@ -1,0 +1,133 @@
+[
+  {
+    "vendor": "mikrotik",
+    "topic": "firewall",
+    "component": "filter",
+    "title": "Règles firewall filter bloquant tout le trafic",
+    "error": "Tout le trafic est bloqué malgré des règles configurées",
+    "meaning": "Sur MikroTik RouterOS, les règles firewall filter sont évaluées de haut en bas. Si une règle de drop est placée avant une règle d'accept, tout le trafic correspondant est bloqué sans atteindre la règle d'accept.",
+    "possible_causes": [
+      "Ordre incorrect des règles (drop avant accept)",
+      "Règle de fasttrack mal configurée empêchant le connection tracking",
+      "Chaîne input sans règle d'accept pour le trafic local",
+      "Règle de drop implicite en fin de chaîne"
+    ],
+    "symptoms": [
+      "Aucune connectivité réseau",
+      "Ping impossible vers la passerelle",
+      "Services locaux (Winbox, SSH) inaccessibles",
+      "Trafic WAN et LAN bloqué"
+    ],
+    "solutions": [
+      "Vérifier l'ordre des règles avec /ip firewall filter print",
+      "Placer les règles d'accept avant les règles de drop",
+      "S'assurer que la règle de fasttrack est correctement configurée",
+      "Ajouter une règle d'accept pour le trafic établi/related",
+      "Utiliser Safe Mode dans Winbox pour éviter le lockout"
+    ],
+    "verification": [
+      "Vérifier l'ordre avec /ip firewall filter print",
+      "Tester la connectivité ping",
+      "Vérifier les compteurs de paquets sur chaque règle",
+      "Vérifier le connection tracking avec /ip firewall connection print"
+    ],
+    "keywords": [
+      "mikrotik",
+      "firewall",
+      "filter",
+      "drop",
+      "block",
+      "rules order",
+      "fasttrack"
+    ]
+  },
+  {
+    "vendor": "mikrotik",
+    "topic": "firewall",
+    "component": "nat",
+    "title": "NAT masquerade ne fonctionne pas",
+    "error": "Les clients LAN n'ont pas accès à Internet malgré une règle masquerade",
+    "meaning": "La règle NAT masquerade remplace l'adresse IP source des paquets sortants par l'adresse IP de l'interface WAN. Si mal configurée, les paquets ne sont pas traduits et Internet reste inaccessible.",
+    "possible_causes": [
+      "Interface out-interface incorrecte dans la règle masquerade",
+      "Pas de route par défaut vers la passerelle WAN",
+      "Règle masquerade désactivée",
+      "Firewall filter bloquant le trafic forward",
+      "DNS non configuré ou inaccessible"
+    ],
+    "symptoms": [
+      "Clients LAN sans accès Internet",
+      "Ping vers 8.8.8.8 échoue depuis les clients",
+      "Ping vers 8.8.8.8 réussi depuis le routeur",
+      "Résolution DNS échoue"
+    ],
+    "solutions": [
+      "Vérifier la règle masquerade avec /ip firewall nat print",
+      "S'assurer que out-interface correspond à l'interface WAN",
+      "Vérifier la route par défaut avec /ip route print",
+      "Vérifier les règles firewall filter forward",
+      "Configurer les serveurs DNS avec /ip dns set servers=..."
+    ],
+    "verification": [
+      "Vérifier la règle NAT avec /ip firewall nat print",
+      "Vérifier la route par défaut",
+      "Tester le ping depuis le routeur puis depuis un client",
+      "Vérifier les compteurs NAT",
+      "Vérifier la résolution DNS"
+    ],
+    "keywords": [
+      "mikrotik",
+      "NAT",
+      "masquerade",
+      "internet",
+      "WAN",
+      "out-interface",
+      "DNS"
+    ]
+  },
+  {
+    "vendor": "mikrotik",
+    "topic": "firewall",
+    "component": "connection tracking",
+    "title": "Connection tracking table pleine",
+    "error": "La table de connection tracking est saturée",
+    "meaning": "MikroTik utilise le connection tracking pour suivre les connexions actives. Si la table atteint sa limite maximale, les nouvelles connexions ne peuvent pas être établies.",
+    "possible_causes": [
+      "Nombre excessif de connexions simultanées (DDoS, scan)",
+      "Timeout de connection tracking trop élevé",
+      "Limite max-entries trop basse pour le hardware",
+      "Attaque SYN flood ou connexions orphelines",
+      "P2P/torrent générant des milliers de connexions"
+    ],
+    "symptoms": [
+      "Nouvelles connexions refusées",
+      "Latence élevée",
+      "CPU à 100%",
+      "Messages dans les logs : connection tracking overflow",
+      "Services lents ou intermittents"
+    ],
+    "solutions": [
+      "Vérifier l'utilisation avec /ip firewall connection print count-only",
+      "Augmenter max-entries dans /ip firewall connection tracking",
+      "Réduire les timeouts TCP/UDP",
+      "Activer le SYN cookie protection",
+      "Bloquer le trafic P2P si non nécessaire",
+      "Mettre à niveau le hardware si la limite est atteinte régulièrement"
+    ],
+    "verification": [
+      "Vérifier le nombre de connexions actives",
+      "Vérifier max-entries et les timeouts",
+      "Analyser le trafic avec Torch ou Packet Sniffer",
+      "Vérifier l'utilisation CPU et mémoire"
+    ],
+    "keywords": [
+      "mikrotik",
+      "connection tracking",
+      "conntrack",
+      "overflow",
+      "DDoS",
+      "SYN flood",
+      "P2P"
+    ]
+  }
+]

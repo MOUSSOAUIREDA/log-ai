@@ -1,0 +1,48 @@
+[
+  {
+    "vendor": "fortinet",
+    "topic": "auth",
+    "component": "FSSO",
+    "title": "FSSO ne récupère pas les utilisateurs AD",
+    "error": "Fortinet Single Sign-On (FSSO) ne détecte pas les connexions utilisateurs",
+    "meaning": "FSSO permet à FortiGate de connaître l'identité des utilisateurs connectés au domaine Active Directory pour appliquer des policies basées sur l'identité. Si FSSO ne fonctionne pas, les policies d'identité ne s'appliquent pas.",
+    "possible_causes": [
+      "Le collector FSSO n'est pas joignable depuis le FortiGate",
+      "Le service FSSO collector n'est pas démarré sur le serveur Windows",
+      "Les ports firewall (TCP 8000, 8002) sont bloqués",
+      "Le FortiGate n'est pas configuré comme client FSSO",
+      "Les groupes AD ne sont pas correctement mappés",
+      "Problème de résolution DNS entre FortiGate et le collector"
+    ],
+    "symptoms": [
+      "Aucun utilisateur visible dans 'Monitor > Firewall User Monitor'",
+      "Policies d'identité non appliquées",
+      "Trafic passant par la policy fallback (sans identité)",
+      "Logs FSSO indiquant des erreurs de connexion"
+    ],
+    "solutions": [
+      "Vérifier la connectivité entre FortiGate et le collector FSSO",
+      "Vérifier que le service collector est démarré sur Windows",
+      "Ouvrir les ports TCP 8000 et 8002",
+      "Vérifier la configuration FSSO sur le FortiGate",
+      "Vérifier le mapping des groupes AD",
+      "Vérifier les logs du collector FSSO sur Windows"
+    ],
+    "verification": [
+      "Vérifier la configuration FSSO avec 'show user fsso'",
+      "Vérifier les utilisateurs connectés avec 'diagnose wad user list'",
+      "Tester la connectivité vers le collector",
+      "Vérifier les logs FSSO",
+      "Vérifier les groupes AD mappés"
+    ],
+    "keywords": [
+      "fortinet",
+      "FSSO",
+      "authentication",
+      "Active Directory",
+      "identity",
+      "collector",
+      "SSO"
+    ]
+  }
+]

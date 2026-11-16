@@ -1,0 +1,47 @@
+[
+  {
+    "vendor": "linux",
+    "topic": "system",
+    "component": "systemd",
+    "title": "Service systemd en état failed",
+    "error": "Job for {service}.service failed because the control process exited with error code",
+    "meaning": "Un service géré par systemd n'a pas pu démarrer ou s'est arrêté avec une erreur. Le service est en état 'failed' et ne fonctionne pas.",
+    "possible_causes": [
+      "Erreur dans le fichier de configuration du service",
+      "Dépendance manquante (autre service non démarré)",
+      "Permissions incorrectes sur les fichiers du service",
+      "Port déjà utilisé par un autre processus",
+      "Ressources insuffisantes (mémoire, disque)",
+      "Erreur dans le script d'initialisation"
+    ],
+    "symptoms": [
+      "Service en état failed avec systemctl status",
+      "Application indisponible",
+      "Messages d'erreur dans journalctl",
+      "Redémarrages automatiques échoués"
+    ],
+    "solutions": [
+      "Vérifier le statut avec systemctl status {service}",
+      "Consulter les logs avec journalctl -u {service} -xe",
+      "Vérifier les dépendances avec systemctl list-dependencies {service}",
+      "Vérifier les permissions des fichiers",
+      "Vérifier que le port n'est pas déjà utilisé avec ss -tlnp",
+      "Corriger la configuration et recharger systemd (systemctl daemon-reload)"
+    ],
+    "verification": [
+      "Vérifier le statut du service",
+      "Vérifier les logs avec journalctl",
+      "Vérifier les dépendances",
+      "Tester le démarrage manuel",
+      "Vérifier les ressources système"
+    ],
+    "keywords": [
+      "linux",
+      "systemd",
+      "service failed",
+      "systemctl",
+      "journalctl",
+      "daemon"
+    ]
+  }
+]

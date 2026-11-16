@@ -1,0 +1,114 @@
+[
+  {
+    "vendor": "cisco",
+    "topic": "switching",
+    "component": "spanning-tree",
+    "title": "Port en état err-disabled (BPDU Guard)",
+    "error": "%SPANTREE-2-BLOCK_BPDUGUARD: Received BPDU on port {interface} with BPDU Guard enabled. Disabling port.",
+    "meaning": "Un BPDU a été reçu sur un port configuré avec BPDU Guard. Le port a été automatiquement désactivé (err-disabled) pour prévenir une boucle réseau.",
+    "possible_causes": [
+      "Switch non autorisé connecté sur un port d'accès",
+      "Boucle de câblage incorrecte",
+      "Attaque spanning-tree spoofing",
+      "Portfast configuré sans BPDU guard sur un trunk"
+    ],
+    "symptoms": [
+      "Port en état err-disabled",
+      "Perte de connectivité sur ce port",
+      "Alerte de sécurité dans les logs"
+    ],
+    "solutions": [
+      "Identifier et retirer l'équipement non autorisé",
+      "Vérifier le câblage",
+      "Remettre le port en service : shutdown puis no shutdown",
+      "Vérifier la configuration STP avec show spanning-tree summary"
+    ],
+    "verification": [
+      "Vérifier l'état du port avec show interface status",
+      "Vérifier les logs spanning-tree",
+      "Vérifier la configuration BPDU guard"
+    ],
+    "keywords": [
+      "cisco",
+      "spanning tree",
+      "BPDU guard",
+      "err-disabled",
+      "loop prevention",
+      "switching"
+    ]
+  },
+  {
+    "vendor": "cisco",
+    "topic": "switching",
+    "component": "vlan",
+    "title": "Native VLAN mismatch sur trunk",
+    "error": "%CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on {interface}",
+    "meaning": "Le VLAN natif configuré sur le trunk local ne correspond pas à celui du voisin. Cela peut causer des problèmes de sécurité et de connectivité.",
+    "possible_causes": [
+      "Configuration différente du VLAN natif des deux côtés",
+      "Modification manuelle sans mise à jour du côté distant"
+    ],
+    "symptoms": [
+      "Problèmes de connectivité pour le VLAN natif",
+      "Vulnérabilité VLAN hopping",
+      "Alertes CDP répétées"
+    ],
+    "solutions": [
+      "Aligner le VLAN natif des deux côtés avec switchport trunk native vlan",
+      "Tagger le VLAN natif si possible",
+      "Vérifier avec show interface trunk"
+    ],
+    "verification": [
+      "Vérifier le VLAN natif avec show interface trunk",
+      "Vérifier la configuration switchport",
+      "Vérifier les logs CDP"
+    ],
+    "keywords": [
+      "cisco",
+      "VLAN",
+      "native VLAN",
+      "mismatch",
+      "trunk",
+      "CDP",
+      "802.1Q"
+    ]
+  },
+  {
+    "vendor": "cisco",
+    "topic": "switching",
+    "component": "etherchannel",
+    "title": "Port suspendu dans EtherChannel",
+    "error": "%EC-5-CANNOT_BUNDLE2: {interface} is not compatible with {bundle_interface} and will be suspended",
+    "meaning": "Un port ne peut pas être ajouté au bundle EtherChannel car il est incompatible avec les autres ports (vitesse, duplex, VLAN, mode).",
+    "possible_causes": [
+      "Vitesse ou duplex différents",
+      "Mode EtherChannel différent (PAgP vs LACP)",
+      "Configuration VLAN différente",
+      "Spanning-tree cost différent"
+    ],
+    "symptoms": [
+      "Port suspendu",
+      "Réduction de la bande passante agrégée",
+      "Trafic non équilibré"
+    ],
+    "solutions": [
+      "Uniformiser la configuration sur tous les ports du bundle",
+      "Vérifier le mode EtherChannel (LACP/PAgP)",
+      "Vérifier avec show etherchannel summary"
+    ],
+    "verification": [
+      "Vérifier la configuration des ports",
+      "Vérifier l'état du bundle",
+      "Vérifier les compteurs EtherChannel"
+    ],
+    "keywords": [
+      "cisco",
+      "EtherChannel",
+      "port-channel",
+      "LACP",
+      "PAgP",
+      "bundle",
+      "link aggregation"
+    ]
+  }
+]

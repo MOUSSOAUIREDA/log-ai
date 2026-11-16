@@ -1,0 +1,1227 @@
+[
+  {
+    "vendor": "cisco",
+    "topic": "routing",
+    "component": "ospf",
+    "title": "OSPF neighbor down",
+    "error": "%OSPF-5-ADJCHG: Process {process_id}, Nbr {neighbor_ip} from FULL to DOWN",
+    "meaning": "L'adjacence OSPF avec le voisin est tombée. Les routes apprises via ce voisin ne sont plus disponibles.",
+    "possible_causes": [
+      "Perte de connectivité de couche 2",
+      "Incompatibilité des paramètres OSPF (area, timers, auth)",
+      "MTU mismatch",
+      "Interface OSPF désactivée sur le voisin"
+    ],
+    "symptoms": [
+      "Routes OSPF disparues",
+      "Trafic redirigé via chemins de secours",
+      "Perte de connectivité inter-site"
+    ],
+    "solutions": [
+      "Vérifier la connectivité de couche 2",
+      "Vérifier les paramètres OSPF avec show ip ospf neighbor",
+      "Aligner la MTU",
+      "Vérifier l'authentification OSPF"
+    ],
+    "verification": [
+      "Vérifier les neighbors OSPF",
+      "Vérifier la configuration OSPF",
+      "Vérifier la connectivité Layer 2"
+    ],
+    "keywords": [
+      "cisco",
+      "OSPF",
+      "routing",
+      "neighbor down",
+      "adjacency",
+      "FULL to DOWN"
+    ]
+  },
+  {
+    "vendor": "cisco",
+    "topic": "routing",
+    "component": "hsrp",
+    "title": "HSRP state change (failover)",
+    "error": "%HSRP-5-STATECHANGE: Interface {interface} Grp {group} state {old_state} -> {new_state}",
+    "meaning": "L'état du groupe HSRP a changé, indiquant un basculement ou une récupération du routeur actif.",
+    "possible_causes": [
+      "Panne du routeur actif",
+      "Récupération du routeur actif",
+      "Changement de priorité HSRP",
+      "Problème sur l'interface trackée"
+    ],
+    "symptoms": [
+      "Basculement de la passerelle par défaut",
+      "Changement de l'adresse MAC virtuelle",
+      "Perte de paquets potentielle pendant le failover"
+    ],
+    "solutions": [
+      "Vérifier l'état HSRP avec show standby brief",
+      "Vérifier la connectivité entre les routeurs HSRP",
+      "Vérifier les interfaces trackées",
+      "Analyser les logs pour la cause"
+    ],
+    "verification": [
+      "Vérifier l'état HSRP",
+      "Vérifier les interfaces trackées",
+      "Vérifier les logs"
+    ],
+    "keywords": [
+      "cisco",
+      "HSRP",
+      "redundancy",
+      "failover",
+      "gateway",
+      "first hop"
+    ]
+  },
+  {
+    "vendor": "cisco",
+    "topic": "switching",
+    "component": "spanning-tree",
+    "title": "Port en état err-disabled (BPDU Guard)",
+    "error": "%SPANTREE-2-BLOCK_BPDUGUARD: Received BPDU on port {interface} with BPDU Guard enabled. Disabling port.",
+    "meaning": "Un BPDU a été reçu sur un port configuré avec BPDU Guard. Le port a été automatiquement désactivé (err-disabled) pour prévenir une boucle réseau.",
+    "possible_causes": [
+      "Switch non autorisé connecté sur un port d'accès",
+      "Boucle de câblage incorrecte",
+      "Attaque spanning-tree spoofing",
+      "Portfast configuré sans BPDU guard sur un trunk"
+    ],
+    "symptoms": [
+      "Port en état err-disabled",
+      "Perte de connectivité sur ce port",
+      "Alerte de sécurité dans les logs"
+    ],
+    "solutions": [
+      "Identifier et retirer l'équipement non autorisé",
+      "Vérifier le câblage",
+      "Remettre le port en service : shutdown puis no shutdown",
+      "Vérifier la configuration STP avec show spanning-tree summary"
+    ],
+    "verification": [
+      "Vérifier l'état du port avec show interface status",
+      "Vérifier les logs spanning-tree",
+      "Vérifier la configuration BPDU guard"
+    ],
+    "keywords": [
+      "cisco",
+      "spanning tree",
+      "BPDU guard",
+      "err-disabled",
+      "loop prevention",
+      "switching"
+    ]
+  },
+  {
+    "vendor": "cisco",
+    "topic": "switching",
+    "component": "vlan",
+    "title": "Native VLAN mismatch sur trunk",
+    "error": "%CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on {interface}",
+    "meaning": "Le VLAN natif configuré sur le trunk local ne correspond pas à celui du voisin. Cela peut causer des problèmes de sécurité et de connectivité.",
+    "possible_causes": [
+      "Configuration différente du VLAN natif des deux côtés",
+      "Modification manuelle sans mise à jour du côté distant"
+    ],
+    "symptoms": [
+      "Problèmes de connectivité pour le VLAN natif",
+      "Vulnérabilité VLAN hopping",
+      "Alertes CDP répétées"
+    ],
+    "solutions": [
+      "Aligner le VLAN natif des deux côtés avec switchport trunk native vlan",
+      "Tagger le VLAN natif si possible",
+      "Vérifier avec show interface trunk"
+    ],
+    "verification": [
+      "Vérifier le VLAN natif avec show interface trunk",
+      "Vérifier la configuration switchport",
+      "Vérifier les logs CDP"
+    ],
+    "keywords": [
+      "cisco",
+      "VLAN",
+      "native VLAN",
+      "mismatch",
+      "trunk",
+      "CDP",
+      "802.1Q"
+    ]
+  },
+  {
+    "vendor": "cisco",
+    "topic": "switching",
+    "component": "etherchannel",
+    "title": "Port suspendu dans EtherChannel",
+    "error": "%EC-5-CANNOT_BUNDLE2: {interface} is not compatible with {bundle_interface} and will be suspended",
+    "meaning": "Un port ne peut pas être ajouté au bundle EtherChannel car il est incompatible avec les autres ports (vitesse, duplex, VLAN, mode).",
+    "possible_causes": [
+      "Vitesse ou duplex différents",
+      "Mode EtherChannel différent (PAgP vs LACP)",
+      "Configuration VLAN différente",
+      "Spanning-tree cost différent"
+    ],
+    "symptoms": [
+      "Port suspendu",
+      "Réduction de la bande passante agrégée",
+      "Trafic non équilibré"
+    ],
+    "solutions": [
+      "Uniformiser la configuration sur tous les ports du bundle",
+      "Vérifier le mode EtherChannel (LACP/PAgP)",
+      "Vérifier avec show etherchannel summary"
+    ],
+    "verification": [
+      "Vérifier la configuration des ports",
+      "Vérifier l'état du bundle",
+      "Vérifier les compteurs EtherChannel"
+    ],
+    "keywords": [
+      "cisco",
+      "EtherChannel",
+      "port-channel",
+      "LACP",
+      "PAgP",
+      "bundle",
+      "link aggregation"
+    ]
+  },
+  {
+    "vendor": "fortinet",
+    "topic": "auth",
+    "component": "FSSO",
+    "title": "FSSO ne récupère pas les utilisateurs AD",
+    "error": "Fortinet Single Sign-On (FSSO) ne détecte pas les connexions utilisateurs",
+    "meaning": "FSSO permet à FortiGate de connaître l'identité des utilisateurs connectés au domaine Active Directory pour appliquer des policies basées sur l'identité. Si FSSO ne fonctionne pas, les policies d'identité ne s'appliquent pas.",
+    "possible_causes": [
+      "Le collector FSSO n'est pas joignable depuis le FortiGate",
+      "Le service FSSO collector n'est pas démarré sur le serveur Windows",
+      "Les ports firewall (TCP 8000, 8002) sont bloqués",
+      "Le FortiGate n'est pas configuré comme client FSSO",
+      "Les groupes AD ne sont pas correctement mappés",
+      "Problème de résolution DNS entre FortiGate et le collector"
+    ],
+    "symptoms": [
+      "Aucun utilisateur visible dans 'Monitor > Firewall User Monitor'",
+      "Policies d'identité non appliquées",
+      "Trafic passant par la policy fallback (sans identité)",
+      "Logs FSSO indiquant des erreurs de connexion"
+    ],
+    "solutions": [
+      "Vérifier la connectivité entre FortiGate et le collector FSSO",
+      "Vérifier que le service collector est démarré sur Windows",
+      "Ouvrir les ports TCP 8000 et 8002",
+      "Vérifier la configuration FSSO sur le FortiGate",
+      "Vérifier le mapping des groupes AD",
+      "Vérifier les logs du collector FSSO sur Windows"
+    ],
+    "verification": [
+      "Vérifier la configuration FSSO avec 'show user fsso'",
+      "Vérifier les utilisateurs connectés avec 'diagnose wad user list'",
+      "Tester la connectivité vers le collector",
+      "Vérifier les logs FSSO",
+      "Vérifier les groupes AD mappés"
+    ],
+    "keywords": [
+      "fortinet",
+      "FSSO",
+      "authentication",
+      "Active Directory",
+      "identity",
+      "collector",
+      "SSO"
+    ]
+  },
+  {
+    "vendor": "fortinet",
+    "topic": "firewall",
+    "component": "policy",
+    "title": "Trafic bloqué par policy implicit deny",
+    "error": "Trafic refusé : implicit deny",
+    "meaning": "Sur FortiGate, si aucune policy firewall ne correspond au trafic, la policy implicite de refus (implicit deny) s'applique. Ce comportement est sécurisé par défaut.",
+    "possible_causes": [
+      "Aucune policy ne correspond à la source/destination/service",
+      "Policy existante mais dans le mauvais VDOM",
+      "Policy désactivée",
+      "NAT mal configuré empêchant la correspondance",
+      "Adresse IP source/dst mal définie dans l'objet address"
+    ],
+    "symptoms": [
+      "Trafic refusé dans les logs avec action 'deny'",
+      "Connexion timeout côté client",
+      "Pas de réponse du serveur distant",
+      "Log : 'action=deny policyid=0'"
+    ],
+    "solutions": [
+      "Créer une policy autorisant le trafic avec les bons objets source/destination/service",
+      "Vérifier que la policy est dans le bon VDOM",
+      "Activer la policy si elle est désactivée",
+      "Vérifier la configuration NAT si nécessaire",
+      "Utiliser le Packet Capture pour diagnostiquer"
+    ],
+    "verification": [
+      "Vérifier les policies avec 'show firewall policy'",
+      "Vérifier les logs de trafic",
+      "Utiliser 'diagnose debug flow' pour tracer le paquet",
+      "Vérifier les objets address et service"
+    ],
+    "keywords": [
+      "fortinet",
+      "fortigate",
+      "firewall",
+      "policy",
+      "implicit deny",
+      "VDOM",
+      "NAT"
+    ]
+  },
+  {
+    "vendor": "fortinet",
+    "topic": "firewall",
+    "component": "IPS",
+    "title": "IPS bloque un trafic légitime",
+    "error": "IPS a détecté et bloqué un trafic considéré comme une attaque",
+    "meaning": "Le système de prévention d'intrusion (IPS) de FortiGate a identifié un pattern correspondant à une signature d'attaque et a bloqué le trafic. Cependant, il peut s'agir d'un faux positif.",
+    "possible_causes": [
+      "Signature IPS trop agressive",
+      "Application légitime utilisant un port ou un pattern similaire à une attaque",
+      "Faux positif sur une application personnalisée",
+      "Mise à jour des signatures ayant ajouté une nouvelle règle trop restrictive"
+    ],
+    "symptoms": [
+      "Application légitime inaccessible",
+      "Logs IPS indiquant 'action=blocked'",
+      "Erreurs côté client (connexion refusée)",
+      "Alertes de sécurité dans FortiView"
+    ],
+    "solutions": [
+      "Identifier la signature IPS responsable dans les logs",
+      "Créer une exception IPS pour l'application légitime",
+      "Passer la signature en mode 'monitor' au lieu de 'block'",
+      "Ajuster le seuil de sensibilité du IPS profile",
+      "Contacter le support Fortinet si faux positif confirmé"
+    ],
+    "verification": [
+      "Vérifier les logs IPS",
+      "Identifier la signature exacte",
+      "Tester après création de l'exception",
+      "Vérifier le IPS profile appliqué"
+    ],
+    "keywords": [
+      "fortinet",
+      "IPS",
+      "intrusion prevention",
+      "false positive",
+      "signature",
+      "block"
+    ]
+  },
+  {
+    "vendor": "fortinet",
+    "topic": "vpn",
+    "component": "IPsec",
+    "title": "Tunnel IPsec ne monte pas",
+    "error": "Le tunnel VPN IPsec reste en état down ou ne passe pas à Phase 2",
+    "meaning": "Le tunnel IPsec entre deux points FortiGate (ou FortiGate et un autre équipement) ne s'établit pas. Cela empêche le trafic inter-site de transiter via le VPN.",
+    "possible_causes": [
+      "Incompatibilité des proposals Phase 1 (IKE) : encryption, hash, DH group",
+      "Incompatibilité des proposals Phase 2 (IPsec) : encryption, hash, PFS",
+      "Clé pré-partagée (PSK) incorrecte",
+      "Adresse IP peer incorrecte ou injoignable",
+      "NAT-T non activé alors que le peer est derrière un NAT",
+      "Firewall bloquant UDP 500/4500",
+      "Lifetime mismatch entre les deux peers"
+    ],
+    "symptoms": [
+      "Tunnel en état down dans l'interface VPN",
+      "Pas de trafic encapsulé",
+      "Logs IKE indiquant 'no proposal chosen'",
+      "Phase 1 établie mais Phase 2 échoue"
+    ],
+    "solutions": [
+      "Vérifier que les proposals Phase 1 correspondent exactement des deux côtés",
+      "Vérifier que les proposals Phase 2 correspondent",
+      "Vérifier la PSK",
+      "Vérifier la connectivité IP vers le peer",
+      "Activer NAT-T si le peer est derrière un NAT",
+      "Vérifier les lifetimes IKE et IPsec",
+      "Utiliser 'diagnose vpn ike log-filter' et 'diagnose debug application ike -1'"
+    ],
+    "verification": [
+      "Vérifier la configuration VPN IPsec",
+      "Vérifier les logs IKE avec 'get vpn ipsec tunnel summary'",
+      "Utiliser le debug IKE",
+      "Vérifier la connectivité avec ping vers le peer",
+      "Vérifier les SA avec 'diagnose vpn tunnel list'"
+    ],
+    "keywords": [
+      "fortinet",
+      "IPsec",
+      "VPN",
+      "tunnel",
+      "IKE",
+      "Phase 1",
+      "Phase 2",
+      "proposal",
+      "PSK"
+    ]
+  },
+  {
+    "vendor": "linux",
+    "topic": "auth",
+    "component": "ssh",
+    "title": "SSH connection refused",
+    "error": "ssh: connect to host {host} port 22: Connection refused",
+    "meaning": "Le client SSH ne peut pas établir de connexion TCP vers le port 22 du serveur. Le service SSH n'est pas en écoute ou un firewall bloque le port.",
+    "possible_causes": [
+      "Le service SSH (sshd) n'est pas démarré",
+      "SSH écoute sur un port différent de 22",
+      "Firewall (iptables, ufw, firewalld) bloquant le port 22",
+      "SELinux bloquant le service SSH",
+      "Le serveur est éteint ou injoignable",
+      "Restriction ListenAddress dans sshd_config"
+    ],
+    "symptoms": [
+      "Connexion SSH refusée immédiatement",
+      "Pas de prompt de mot de passe",
+      "Timeout ou connexion refused",
+      "Impossible d'accéder au serveur à distance"
+    ],
+    "solutions": [
+      "Vérifier que sshd est démarré avec systemctl status sshd",
+      "Vérifier le port d'écoute avec ss -tlnp | grep ssh",
+      "Vérifier les règles firewall (iptables -L, ufw status, firewall-cmd)",
+      "Vérifier sshd_config pour ListenAddress et Port",
+      "Vérifier SELinux avec getenforce",
+      "Redémarrer sshd après modification de la config"
+    ],
+    "verification": [
+      "Vérifier le statut du service sshd",
+      "Vérifier le port d'écoute",
+      "Vérifier les logs SSH avec journalctl -u sshd",
+      "Tester la connectivité réseau avec ping et telnet",
+      "Vérifier la configuration sshd_config"
+    ],
+    "keywords": [
+      "linux",
+      "SSH",
+      "connection refused",
+      "sshd",
+      "firewall",
+      "port 22",
+      "remote access"
+    ]
+  },
+  {
+    "vendor": "linux",
+    "topic": "auth",
+    "component": "ssh",
+    "title": "Permission denied (publickey)",
+    "error": "Permission denied (publickey,password)",
+    "meaning": "L'authentification SSH a échoué. Le serveur a refusé la clé publique ou le mot de passe fourni. Cela peut être dû à une mauvaise configuration des clés, des permissions incorrectes, ou une politique d'authentification restrictive.",
+    "possible_causes": [
+      "Clé publique non présente dans ~/.ssh/authorized_keys",
+      "Permissions incorrectes sur ~/.ssh ou authorized_keys (doit être 600)",
+      "Authentification par mot de passe désactivée (PasswordAuthentication no)",
+      "Clé privée incompatible (format, algorithme)",
+      "L'utilisateur est désactivé ou son shell est /bin/false",
+      "SELinux empêchant la lecture de authorized_keys"
+    ],
+    "symptoms": [
+      "Échec de connexion après le prompt de mot de passe",
+      "Message 'Permission denied'",
+      "Connexion refusée même avec la bonne clé",
+      "Impossible de se connecter en root"
+    ],
+    "solutions": [
+      "Vérifier que la clé publique est dans ~/.ssh/authorized_keys",
+      "Vérifier les permissions : chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys",
+      "Vérifier sshd_config pour PasswordAuthentication et PubkeyAuthentication",
+      "Vérifier le format de la clé (PEM vs OpenSSH)",
+      "Vérifier que l'utilisateur existe et a un shell valide",
+      "Vérifier SELinux avec restorecon -R ~/.ssh"
+    ],
+    "verification": [
+      "Vérifier authorized_keys",
+      "Vérifier les permissions avec ls -la ~/.ssh",
+      "Vérifier sshd_config",
+      "Tester avec ssh -v pour le debug",
+      "Vérifier les logs SSH"
+    ],
+    "keywords": [
+      "linux",
+      "SSH",
+      "permission denied",
+      "publickey",
+      "authorized_keys",
+      "authentication"
+    ]
+  },
+  {
+    "vendor": "linux",
+    "topic": "kernel",
+    "component": "oom_killer",
+    "title": "OOM Killer a tué un processus",
+    "error": "Out of memory: Kill process {pid} ({process_name}) score {score} or sacrifice child",
+    "meaning": "Le système Linux a épuisé la mémoire RAM disponible. L'OOM Killer (Out-Of-Memory Killer) a sélectionné et tué un processus pour libérer de la mémoire et éviter un crash complet du système.",
+    "possible_causes": [
+      "Fuite de mémoire (memory leak) dans une application",
+      "Trop de processus consommant de la mémoire simultanément",
+      "Swap désactivé ou insuffisant",
+      "Application mal configurée avec des limites de mémoire trop élevées",
+      "Attaque consommant beaucoup de mémoire"
+    ],
+    "symptoms": [
+      "Processus arrêté subitement",
+      "Services indisponibles",
+      "Message OOM dans dmesg ou syslog",
+      "Système très lent avant le kill",
+      "Utilisation mémoire à 100%"
+    ],
+    "solutions": [
+      "Identifier le processus tué et la cause avec dmesg | grep -i oom",
+      "Vérifier l'utilisation mémoire avec free -h et htop",
+      "Activer ou augmenter le swap",
+      "Limiter la mémoire des processus problématiques (cgroups, ulimit)",
+      "Redémarrer le service fuyant",
+      "Mettre à jour l'application si bug connu"
+    ],
+    "verification": [
+      "Vérifier les logs OOM avec dmesg",
+      "Vérifier l'utilisation mémoire avec free, vmstat, htop",
+      "Vérifier les limites de mémoire des processus",
+      "Surveiller l'évolution de la consommation mémoire"
+    ],
+    "keywords": [
+      "linux",
+      "kernel",
+      "OOM",
+      "out of memory",
+      "oom_killer",
+      "memory leak",
+      "RAM"
+    ]
+  },
+  {
+    "vendor": "linux",
+    "topic": "kernel",
+    "component": "network",
+    "title": "Conntrack table full",
+    "error": "nf_conntrack: table full, dropping packet",
+    "meaning": "La table de suivi des connexions Netfilter (conntrack) du noyau Linux est pleine. Les nouveaux paquets ne peuvent pas être suivis et sont perdus.",
+    "possible_causes": [
+      "Nombre excessif de connexions simultanées",
+      "Valeur max de conntrack trop basse pour la charge",
+      "Timeout de conntrack trop élevé",
+      "Attaque DDoS générant des milliers de connexions",
+      "Fuite de connexions (connexions non fermées correctement)"
+    ],
+    "symptoms": [
+      "Nouvelles connexions refusées",
+      "Perte de paquets",
+      "Message dans dmesg/syslog",
+      "Latence élevée",
+      "Services intermittents"
+    ],
+    "solutions": [
+      "Vérifier l'utilisation avec cat /proc/sys/net/netfilter/nf_conntrack_count",
+      "Augmenter nf_conntrack_max avec sysctl",
+      "Réduire les timeouts de conntrack",
+      "Désactiver conntrack si non nécessaire (raw table NOTRACK)",
+      "Identifier et bloquer le trafic anormal",
+      "Augmenter les ressources matérielles"
+    ],
+    "verification": [
+      "Vérifier nf_conntrack_count et nf_conntrack_max",
+      "Vérifier les logs kernel",
+      "Analyser le trafic avec tcpdump ou ss",
+      "Surveiller l'évolution de la table"
+    ],
+    "keywords": [
+      "linux",
+      "kernel",
+      "conntrack",
+      "netfilter",
+      "connection tracking",
+      "table full",
+      "DDoS"
+    ]
+  },
+  {
+    "vendor": "linux",
+    "topic": "system",
+    "component": "systemd",
+    "title": "Service systemd en état failed",
+    "error": "Job for {service}.service failed because the control process exited with error code",
+    "meaning": "Un service géré par systemd n'a pas pu démarrer ou s'est arrêté avec une erreur. Le service est en état 'failed' et ne fonctionne pas.",
+    "possible_causes": [
+      "Erreur dans le fichier de configuration du service",
+      "Dépendance manquante (autre service non démarré)",
+      "Permissions incorrectes sur les fichiers du service",
+      "Port déjà utilisé par un autre processus",
+      "Ressources insuffisantes (mémoire, disque)",
+      "Erreur dans le script d'initialisation"
+    ],
+    "symptoms": [
+      "Service en état failed avec systemctl status",
+      "Application indisponible",
+      "Messages d'erreur dans journalctl",
+      "Redémarrages automatiques échoués"
+    ],
+    "solutions": [
+      "Vérifier le statut avec systemctl status {service}",
+      "Consulter les logs avec journalctl -u {service} -xe",
+      "Vérifier les dépendances avec systemctl list-dependencies {service}",
+      "Vérifier les permissions des fichiers",
+      "Vérifier que le port n'est pas déjà utilisé avec ss -tlnp",
+      "Corriger la configuration et recharger systemd (systemctl daemon-reload)"
+    ],
+    "verification": [
+      "Vérifier le statut du service",
+      "Vérifier les logs avec journalctl",
+      "Vérifier les dépendances",
+      "Tester le démarrage manuel",
+      "Vérifier les ressources système"
+    ],
+    "keywords": [
+      "linux",
+      "systemd",
+      "service failed",
+      "systemctl",
+      "journalctl",
+      "daemon"
+    ]
+  },
+  {
+    "vendor": "linux",
+    "topic": "web",
+    "component": "nginx",
+    "title": "Directory index is forbidden (403)",
+    "error": "directory index of ... is forbidden",
+    "meaning": "Nginx reçoit une requête vers un répertoire mais aucun fichier index n'est disponible et l'indexation du répertoire (autoindex) est interdite.",
+    "possible_causes": [
+      "Le fichier index.html ou index.php est absent du répertoire",
+      "La directive root pointe vers le mauvais répertoire",
+      "La directive index ne liste pas le bon fichier",
+      "Les permissions du répertoire empêchent la lecture",
+      "Le répertoire n'appartient pas à l'utilisateur nginx/www-data"
+    ],
+    "symptoms": [
+      "HTTP 403 Forbidden",
+      "Page blanche ou message d'erreur 403",
+      "Accès aux fichiers directs fonctionne mais pas aux répertoires"
+    ],
+    "solutions": [
+      "Créer un fichier index.html ou index.php dans le répertoire",
+      "Vérifier la directive root dans le server block",
+      "Ajouter la directive index avec les bons fichiers (index.html index.php)",
+      "Vérifier les permissions avec ls -la et chmod/chown",
+      "Activer autoindex si l'indexation est souhaitée"
+    ],
+    "verification": [
+      "Vérifier la configuration nginx avec nginx -t",
+      "Vérifier les permissions du répertoire et des fichiers",
+      "Vérifier les logs d'erreur nginx",
+      "Tester l'accès direct à un fichier statique"
+    ],
+    "keywords": [
+      "linux",
+      "nginx",
+      "403",
+      "directory index",
+      "forbidden",
+      "web server",
+      "permissions"
+    ]
+  },
+  {
+    "vendor": "linux",
+    "topic": "web",
+    "component": "nginx",
+    "title": "502 Bad Gateway (upstream error)",
+    "error": "connect() failed (111: Connection refused) while connecting to upstream",
+    "meaning": "Nginx agit comme reverse proxy mais ne peut pas se connecter au backend (PHP-FPM, Node.js, etc.). Le backend est soit arrêté, soit injoignable sur le port/socket configuré.",
+    "possible_causes": [
+      "Le service backend (PHP-FPM, Node.js, etc.) est arrêté",
+      "Le backend écoute sur un port/socket différent de celui configuré dans nginx",
+      "Le backend a atteint sa limite de connexions simultanées",
+      "Firewall bloquant la connexion entre nginx et le backend",
+      "SELinux empêchant la connexion au socket"
+    ],
+    "symptoms": [
+      "HTTP 502 Bad Gateway",
+      "Pages dynamiques non chargées (pages statiques OK)",
+      "Erreurs dans /var/log/nginx/error.log",
+      "Timeout sur les requêtes dynamiques"
+    ],
+    "solutions": [
+      "Vérifier que le service backend est démarré (systemctl status php-fpm)",
+      "Vérifier le port/socket dans nginx.conf et dans la config du backend",
+      "Redémarrer le service backend",
+      "Vérifier les limites de connexions du backend",
+      "Vérifier SELinux avec getenforce et les logs audit",
+      "Vérifier le firewall entre nginx et le backend"
+    ],
+    "verification": [
+      "Vérifier le statut du service backend",
+      "Vérifier les logs nginx et du backend",
+      "Tester la connexion au backend avec curl ou telnet",
+      "Vérifier la configuration nginx avec nginx -t",
+      "Vérifier les processus en écoute avec ss -tlnp"
+    ],
+    "keywords": [
+      "linux",
+      "nginx",
+      "502",
+      "bad gateway",
+      "upstream",
+      "PHP-FPM",
+      "reverse proxy"
+    ]
+  },
+  {
+    "vendor": "linux",
+    "topic": "web",
+    "component": "nginx",
+    "title": "SSL_do_handshake() failed",
+    "error": "SSL_do_handshake() failed (SSL: error:...)",
+    "meaning": "Le handshake TLS/SSL entre Nginx et le client (ou entre Nginx et un backend) a échoué. Cela indique un problème de certificat, de protocole, ou de configuration SSL.",
+    "possible_causes": [
+      "Certificat SSL expiré ou invalide",
+      "Protocole SSL/TLS incompatible entre client et serveur",
+      "Cipher suite non supportée par le client",
+      "Certificat intermédiaire manquant dans la chaîne",
+      "SNI (Server Name Indication) mal configuré",
+      "Client utilisant un ancien protocole (SSLv3, TLS 1.0) désactivé côté serveur"
+    ],
+    "symptoms": [
+      "Erreur SSL dans le navigateur (ERR_SSL_PROTOCOL_ERROR)",
+      "Handshake échoue dans les logs nginx",
+      "Connexion refusée ou timeout SSL",
+      "Certificat affiché comme non valide"
+    ],
+    "solutions": [
+      "Vérifier la validité du certificat avec openssl x509 -in cert.pem -text -noout",
+      "Vérifier la date d'expiration",
+      "S'assurer que la chaîne de certificats complète est configurée",
+      "Ajuster les protocoles et cipher suites dans nginx.conf",
+      "Vérifier la configuration SNI",
+      "Tester avec openssl s_client -connect host:port"
+    ],
+    "verification": [
+      "Vérifier le certificat avec openssl",
+      "Vérifier la chaîne complète",
+      "Tester le handshake avec openssl s_client",
+      "Vérifier les logs nginx",
+      "Tester avec SSL Labs SSL Test"
+    ],
+    "keywords": [
+      "linux",
+      "nginx",
+      "SSL",
+      "TLS",
+      "handshake",
+      "certificate",
+      "cipher",
+      "SNI"
+    ]
+  },
+  {
+    "vendor": "mikrotik",
+    "topic": "dhcp",
+    "component": "server",
+    "title": "Client ne reçoit pas d'adresse IP",
+    "error": "Le client envoie des DHCP Discover mais ne reçoit pas d'offre",
+    "meaning": "Le serveur DHCP MikroTik ne répond pas aux requêtes DHCP Discover du client. Cela peut être dû à une mauvaise configuration du serveur, du relay, ou du réseau.",
+    "possible_causes": [
+      "Le serveur DHCP n'est pas activé sur le bon interface",
+      "Le pool d'adresses est épuisé",
+      "Un autre serveur DHCP (rogue) répond avant celui de MikroTik",
+      "Le client est sur un VLAN différent sans DHCP relay",
+      "Firewall filter bloquant le port UDP 67/68",
+      "Adresse MAC du client dans la liste de blocage"
+    ],
+    "symptoms": [
+      "Client avec adresse APIPA (169.254.x.x)",
+      "Message 'DHCP failed' sur le client",
+      "Aucune lease visible dans /ip dhcp-server lease",
+      "Requêtes DHCP Discover visibles dans les logs"
+    ],
+    "solutions": [
+      "Vérifier que le serveur DHCP est lié au bon interface avec /ip dhcp-server print",
+      "Vérifier l'état du pool avec /ip pool print used",
+      "Scanner le réseau pour détecter un serveur DHCP rogue",
+      "Vérifier la configuration VLAN et DHCP relay",
+      "Vérifier les règles firewall pour UDP 67/68",
+      "Vérifier la liste d'adresses MAC bloquées"
+    ],
+    "verification": [
+      "Vérifier la configuration DHCP server",
+      "Vérifier les leases actives",
+      "Capturer le trafic DHCP avec Packet Sniffer",
+      "Vérifier les logs DHCP",
+      "Tester avec un autre client"
+    ],
+    "keywords": [
+      "mikrotik",
+      "DHCP",
+      "IP address",
+      "lease",
+      "pool",
+      "DHCP Discover",
+      "rogue"
+    ]
+  },
+  {
+    "vendor": "mikrotik",
+    "topic": "dhcp",
+    "component": "lease",
+    "title": "Conflit d'adresse IP détecté",
+    "error": "Duplicate IP address detected",
+    "meaning": "Deux équipements utilisent la même adresse IP sur le réseau. MikroTik détecte ce conflit via ARP et signale le problème.",
+    "possible_causes": [
+      "Adresse IP statique configurée manuellement en dehors du pool DHCP",
+      "Deux serveurs DHCP avec des pools qui se chevauchent",
+      "Lease statique mal configurée",
+      "Client avec IP fixe rentrant en conflit avec une lease DHCP",
+      "Clonage d'adresse MAC"
+    ],
+    "symptoms": [
+      "Perte de connectivité intermittente",
+      "Messages ARP conflict dans les logs",
+      "Deux MAC différentes pour la même IP dans la table ARP",
+      "Services instables"
+    ],
+    "solutions": [
+      "Identifier les MAC en conflit avec /ip arp print",
+      "Réserver l'adresse en lease statique si nécessaire",
+      "Modifier l'adresse IP statique du client",
+      "Vérifier que les pools DHCP ne se chevauchent pas",
+      "Activer l'ARP reply-only sur l'interface"
+    ],
+    "verification": [
+      "Vérifier la table ARP",
+      "Vérifier les leases DHCP",
+      "Scanner le réseau avec IP Scan ou Netwatch",
+      "Vérifier les configurations IP statiques des clients"
+    ],
+    "keywords": [
+      "mikrotik",
+      "DHCP",
+      "IP conflict",
+      "duplicate IP",
+      "ARP",
+      "lease"
+    ]
+  },
+  {
+    "vendor": "mikrotik",
+    "topic": "firewall",
+    "component": "filter",
+    "title": "Règles firewall filter bloquant tout le trafic",
+    "error": "Tout le trafic est bloqué malgré des règles configurées",
+    "meaning": "Sur MikroTik RouterOS, les règles firewall filter sont évaluées de haut en bas. Si une règle de drop est placée avant une règle d'accept, tout le trafic correspondant est bloqué sans atteindre la règle d'accept.",
+    "possible_causes": [
+      "Ordre incorrect des règles (drop avant accept)",
+      "Règle de fasttrack mal configurée empêchant le connection tracking",
+      "Chaîne input sans règle d'accept pour le trafic local",
+      "Règle de drop implicite en fin de chaîne"
+    ],
+    "symptoms": [
+      "Aucune connectivité réseau",
+      "Ping impossible vers la passerelle",
+      "Services locaux (Winbox, SSH) inaccessibles",
+      "Trafic WAN et LAN bloqué"
+    ],
+    "solutions": [
+      "Vérifier l'ordre des règles avec /ip firewall filter print",
+      "Placer les règles d'accept avant les règles de drop",
+      "S'assurer que la règle de fasttrack est correctement configurée",
+      "Ajouter une règle d'accept pour le trafic établi/related",
+      "Utiliser Safe Mode dans Winbox pour éviter le lockout"
+    ],
+    "verification": [
+      "Vérifier l'ordre avec /ip firewall filter print",
+      "Tester la connectivité ping",
+      "Vérifier les compteurs de paquets sur chaque règle",
+      "Vérifier le connection tracking avec /ip firewall connection print"
+    ],
+    "keywords": [
+      "mikrotik",
+      "firewall",
+      "filter",
+      "drop",
+      "block",
+      "rules order",
+      "fasttrack"
+    ]
+  },
+  {
+    "vendor": "mikrotik",
+    "topic": "firewall",
+    "component": "nat",
+    "title": "NAT masquerade ne fonctionne pas",
+    "error": "Les clients LAN n'ont pas accès à Internet malgré une règle masquerade",
+    "meaning": "La règle NAT masquerade remplace l'adresse IP source des paquets sortants par l'adresse IP de l'interface WAN. Si mal configurée, les paquets ne sont pas traduits et Internet reste inaccessible.",
+    "possible_causes": [
+      "Interface out-interface incorrecte dans la règle masquerade",
+      "Pas de route par défaut vers la passerelle WAN",
+      "Règle masquerade désactivée",
+      "Firewall filter bloquant le trafic forward",
+      "DNS non configuré ou inaccessible"
+    ],
+    "symptoms": [
+      "Clients LAN sans accès Internet",
+      "Ping vers 8.8.8.8 échoue depuis les clients",
+      "Ping vers 8.8.8.8 réussi depuis le routeur",
+      "Résolution DNS échoue"
+    ],
+    "solutions": [
+      "Vérifier la règle masquerade avec /ip firewall nat print",
+      "S'assurer que out-interface correspond à l'interface WAN",
+      "Vérifier la route par défaut avec /ip route print",
+      "Vérifier les règles firewall filter forward",
+      "Configurer les serveurs DNS avec /ip dns set servers=..."
+    ],
+    "verification": [
+      "Vérifier la règle NAT avec /ip firewall nat print",
+      "Vérifier la route par défaut",
+      "Tester le ping depuis le routeur puis depuis un client",
+      "Vérifier les compteurs NAT",
+      "Vérifier la résolution DNS"
+    ],
+    "keywords": [
+      "mikrotik",
+      "NAT",
+      "masquerade",
+      "internet",
+      "WAN",
+      "out-interface",
+      "DNS"
+    ]
+  },
+  {
+    "vendor": "mikrotik",
+    "topic": "firewall",
+    "component": "connection tracking",
+    "title": "Connection tracking table pleine",
+    "error": "La table de connection tracking est saturée",
+    "meaning": "MikroTik utilise le connection tracking pour suivre les connexions actives. Si la table atteint sa limite maximale, les nouvelles connexions ne peuvent pas être établies.",
+    "possible_causes": [
+      "Nombre excessif de connexions simultanées (DDoS, scan)",
+      "Timeout de connection tracking trop élevé",
+      "Limite max-entries trop basse pour le hardware",
+      "Attaque SYN flood ou connexions orphelines",
+      "P2P/torrent générant des milliers de connexions"
+    ],
+    "symptoms": [
+      "Nouvelles connexions refusées",
+      "Latence élevée",
+      "CPU à 100%",
+      "Messages dans les logs : connection tracking overflow",
+      "Services lents ou intermittents"
+    ],
+    "solutions": [
+      "Vérifier l'utilisation avec /ip firewall connection print count-only",
+      "Augmenter max-entries dans /ip firewall connection tracking",
+      "Réduire les timeouts TCP/UDP",
+      "Activer le SYN cookie protection",
+      "Bloquer le trafic P2P si non nécessaire",
+      "Mettre à niveau le hardware si la limite est atteinte régulièrement"
+    ],
+    "verification": [
+      "Vérifier le nombre de connexions actives",
+      "Vérifier max-entries et les timeouts",
+      "Analyser le trafic avec Torch ou Packet Sniffer",
+      "Vérifier l'utilisation CPU et mémoire"
+    ],
+    "keywords": [
+      "mikrotik",
+      "connection tracking",
+      "conntrack",
+      "overflow",
+      "DDoS",
+      "SYN flood",
+      "P2P"
+    ]
+  },
+  {
+    "vendor": "mikrotik",
+    "topic": "routing",
+    "component": "ospf",
+    "title": "OSPF neighbor reste en Init ou ExStart",
+    "error": "L'adjacence OSPF ne passe pas à l'état Full",
+    "meaning": "Sur MikroTik RouterOS, une adjacence OSPF bloquée en Init ou ExStart indique un problème de communication ou de paramètres entre les routeurs voisins.",
+    "possible_causes": [
+      "MTU mismatch entre les interfaces des voisins",
+      "Area ID différente des deux côtés",
+      "Type de réseau incompatible (broadcast vs point-to-point)",
+      "Authentification OSPF mal configurée",
+      "Hello/Dead interval différents",
+      "Router ID en conflit (dupliqué)",
+      "Firewall filter bloquant le protocole OSPF (IP 89)"
+    ],
+    "symptoms": [
+      "Routes OSPF absentes de la table de routage",
+      "Neighbor bloqué en Init, 2-Way, ou ExStart",
+      "Pas d'échange de LSA",
+      "Connectivité inter-site perdue"
+    ],
+    "solutions": [
+      "Vérifier la MTU avec /interface print detail",
+      "S'assurer que les area ID correspondent",
+      "Vérifier le type de réseau avec /routing ospf interface print",
+      "Vérifier l'authentification OSPF",
+      "Aligner les timers hello et dead",
+      "Vérifier l'unicité des Router ID",
+      "Autoriser le protocole IP 89 dans le firewall"
+    ],
+    "verification": [
+      "Vérifier les neighbors avec /routing ospf neighbor print",
+      "Vérifier la configuration OSPF",
+      "Vérifier la MTU des interfaces",
+      "Capturer le trafic OSPF",
+      "Vérifier les logs de routage"
+    ],
+    "keywords": [
+      "mikrotik",
+      "OSPF",
+      "routing",
+      "neighbor",
+      "adjacency",
+      "MTU",
+      "area",
+      "Init",
+      "ExStart"
+    ]
+  },
+  {
+    "vendor": "mikrotik",
+    "topic": "wireless",
+    "component": "wifi",
+    "title": "Clients WiFi ne se connectent pas",
+    "error": "Les clients voient le SSID mais ne parviennent pas à s'authentifier",
+    "meaning": "Le point d'accès MikroTik diffuse le SSID mais l'authentification échoue. Cela peut être dû à une mauvaise configuration de la sécurité, de la fréquence, ou des paramètres de bande.",
+    "possible_causes": [
+      "Mot de passe WiFi incorrect ou changé",
+      "Mode de sécurité incompatible (WPA2 vs WPA3)",
+      "Fréquence utilisée non supportée par le client",
+      "Bande 5GHz utilisée mais le client ne supporte que le 2.4GHz",
+      "Nombre maximal de clients atteint",
+      "Problème de certificat en mode WPA2-Enterprise",
+      "Interférences ou canal surchargé"
+    ],
+    "symptoms": [
+      "SSID visible mais connexion échoue",
+      "Message 'Authentication failed' sur le client",
+      "Client bloqué en 'Obtaining IP address'",
+      "Déconnexions fréquentes",
+      "Faible débit malgré la connexion"
+    ],
+    "solutions": [
+      "Vérifier le mot de passe et le mode de sécurité avec /interface wireless print",
+      "S'assurer que le client supporte la bande et la fréquence configurées",
+      "Vérifier le nombre maximal de clients autorisés",
+      "Tester avec une sécurité WPA2-Personal simple",
+      "Changer de canal pour éviter les interférences",
+      "Vérifier la puissance de transmission et les antennes"
+    ],
+    "verification": [
+      "Vérifier la configuration wireless",
+      "Vérifier les clients connectés avec /interface wireless registration-table print",
+      "Analyser le spectre avec Frequency Scanner",
+      "Vérifier les logs wireless",
+      "Tester avec différents appareils"
+    ],
+    "keywords": [
+      "mikrotik",
+      "wireless",
+      "wifi",
+      "SSID",
+      "authentication",
+      "WPA2",
+      "WPA3",
+      "5GHz",
+      "2.4GHz"
+    ]
+  },
+  {
+    "vendor": "mikrotik",
+    "topic": "wireless",
+    "component": "capsman",
+    "title": "CAPsMAN ne détecte pas les CAP",
+    "error": "Les points d'accès CAP ne s'enregistrent pas auprès du contrôleur CAPsMAN",
+    "meaning": "CAPsMAN (Controlled Access Point system Manager) est le système de gestion centralisée des AP MikroTik. Si les CAP ne s'enregistrent pas, ils ne peuvent pas être gérés ni diffuser le WiFi.",
+    "possible_causes": [
+      "Les CAP et le CAPsMAN ne sont pas sur le même Layer 2",
+      "Le discovery interface n'est pas configuré correctement",
+      "Les certificats ne correspondent pas (mode sécurisé)",
+      "Les CAP sont en mode standalone au lieu de CAP",
+      "Firewall bloquant le protocole CAPsMAN (UDP 5246/5247)",
+      "Version RouterOS incompatible entre CAP et CAPsMAN"
+    ],
+    "symptoms": [
+      "Aucun CAP visible dans /caps-man remote-cap print",
+      "Points d'accès non fonctionnels",
+      "SSID non diffusé par les CAP",
+      "Messages de discovery timeout dans les logs"
+    ],
+    "solutions": [
+      "Vérifier que les CAP peuvent joindre le CAPsMAN en Layer 2",
+      "Vérifier la configuration discovery avec /caps-man manager print",
+      "S'assurer que les interfaces sont dans le bon bridge/VLAN",
+      "Vérifier les certificats si le mode sécurisé est utilisé",
+      "Vérifier que les CAP sont bien en mode CAP (pas standalone)",
+      "Uniformiser les versions RouterOS"
+    ],
+    "verification": [
+      "Vérifier la configuration CAPsMAN manager",
+      "Vérifier les remote-caps",
+      "Vérifier la connectivité Layer 2",
+      "Vérifier les logs sur le CAPsMAN et les CAP",
+      "Tester la découverte avec /caps-man manager interface print"
+    ],
+    "keywords": [
+      "mikrotik",
+      "CAPsMAN",
+      "CAP",
+      "wireless",
+      "controller",
+      "discovery",
+      "Layer 2"
+    ]
+  },
+  {
+    "vendor": "generic",
+    "topic": "system",
+    "component": "dns",
+    "title": "Résolution DNS échoue",
+    "error": "DNS resolution failed / NXDOMAIN / Serveur DNS inaccessible",
+    "meaning": "Le système ne parvient pas à résoudre un nom de domaine en adresse IP. Cela empêche l'accès aux services basés sur des noms de domaine.",
+    "possible_causes": [
+      "Serveurs DNS non configurés ou incorrects",
+      "Serveur DNS distant injoignable (panne réseau)",
+      "Firewall bloquant le port UDP 53",
+      "Nom de domaine inexistant (NXDOMAIN)",
+      "Cache DNS corrompu ou obsolète",
+      "Problème de résolution récursive sur le serveur DNS"
+    ],
+    "symptoms": [
+      "Impossible d'accéder aux sites web par nom de domaine",
+      "L'accès par adresse IP fonctionne",
+      "Erreur NXDOMAIN dans les logs",
+      "Timeout sur les requêtes DNS",
+      "Applications dépendantes de DNS non fonctionnelles"
+    ],
+    "solutions": [
+      "Vérifier la configuration DNS avec cat /etc/resolv.conf ou ipconfig /all",
+      "Tester la résolution avec nslookup ou dig",
+      "Changer de serveurs DNS (8.8.8.8, 1.1.1.1)",
+      "Vider le cache DNS (systemd-resolve --flush-caches ou ipconfig /flushdns)",
+      "Vérifier la connectivité vers le serveur DNS avec ping",
+      "Vérifier les règles firewall pour UDP/TCP 53"
+    ],
+    "verification": [
+      "Tester avec dig @8.8.8.8 google.com",
+      "Vérifier /etc/resolv.conf",
+      "Vérifier la connectivité vers les DNS",
+      "Vérifier les logs DNS"
+    ],
+    "keywords": [
+      "generic",
+      "DNS",
+      "resolution",
+      "NXDOMAIN",
+      "nameserver",
+      "UDP 53",
+      "connectivity"
+    ]
+  },
+  {
+    "vendor": "generic",
+    "topic": "system",
+    "component": "network",
+    "title": "Disque plein (no space left on device)",
+    "error": "No space left on device",
+    "meaning": "Le système de fichiers a atteint sa capacité maximale. Aucun nouveau fichier ne peut être créé et les applications écrivant sur le disque échouent.",
+    "possible_causes": [
+      "Fichiers logs ayant grandi de façon anormale",
+      "Fichiers temporaires non nettoyés",
+      "Base de données ayant grandi",
+      "Snapshots ou backups accumulés",
+      "Inode exhaustion (trop de petits fichiers)"
+    ],
+    "symptoms": [
+      "Applications ne pouvant pas écrire de données",
+      "Services crashant",
+      "Impossibilité de se connecter SSH",
+      "Messages d'erreur 'No space left'",
+      "Système très lent"
+    ],
+    "solutions": [
+      "Vérifier l'utilisation avec df -h et du -sh /*",
+      "Identifier les gros fichiers avec du -ah / | sort -rh | head -20",
+      "Vider les logs avec logrotate ou rm",
+      "Nettoyer les fichiers temporaires /tmp et /var/tmp",
+      "Supprimer les vieux packages avec apt autoremove ou yum autoremove",
+      "Vérifier les inodes avec df -i"
+    ],
+    "verification": [
+      "Vérifier l'espace disque avec df -h",
+      "Vérifier les inodes avec df -i",
+      "Identifier les plus gros répertoires",
+      "Vérifier que l'espace est libéré"
+    ],
+    "keywords": [
+      "generic",
+      "disk full",
+      "no space left",
+      "storage",
+      "filesystem",
+      "inode",
+      "cleanup"
+    ]
+  },
+  {
+    "vendor": "generic",
+    "topic": "system",
+    "component": "network",
+    "title": "Port déjà utilisé (Address already in use)",
+    "error": "bind: Address already in use",
+    "meaning": "Une application tente de démarrer et d'écouter sur un port TCP/UDP qui est déjà utilisé par un autre processus.",
+    "possible_causes": [
+      "Un autre processus utilise déjà ce port",
+      "Le processus précédent ne s'est pas terminé correctement (zombie)",
+      "Deux instances du même service tentent de démarrer",
+      "Le port est dans l'état TIME_WAIT"
+    ],
+    "symptoms": [
+      "Service ne démarre pas",
+      "Message 'Address already in use'",
+      "Port indisponible pour l'application",
+      "Conflit entre services"
+    ],
+    "solutions": [
+      "Identifier le processus avec ss -tlnp ou lsof -i :{port}",
+      "Tuer le processus occupant le port si non nécessaire",
+      "Changer le port d'écoute de l'application",
+      "Attendre que le port sorte de l'état TIME_WAIT",
+      "Activer SO_REUSEADDR dans l'application"
+    ],
+    "verification": [
+      "Vérifier les ports en écoute avec ss -tlnp",
+      "Vérifier le PID du processus occupant le port",
+      "Tester le démarrage après libération du port"
+    ],
+    "keywords": [
+      "generic",
+      "port",
+      "bind",
+      "address already in use",
+      "socket",
+      "TIME_WAIT",
+      "conflict"
+    ]
+  }
+]

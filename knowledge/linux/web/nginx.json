@@ -1,0 +1,136 @@
+[
+  {
+    "vendor": "linux",
+    "topic": "web",
+    "component": "nginx",
+    "title": "Directory index is forbidden (403)",
+    "error": "directory index of ... is forbidden",
+    "meaning": "Nginx reçoit une requête vers un répertoire mais aucun fichier index n'est disponible et l'indexation du répertoire (autoindex) est interdite.",
+    "possible_causes": [
+      "Le fichier index.html ou index.php est absent du répertoire",
+      "La directive root pointe vers le mauvais répertoire",
+      "La directive index ne liste pas le bon fichier",
+      "Les permissions du répertoire empêchent la lecture",
+      "Le répertoire n'appartient pas à l'utilisateur nginx/www-data"
+    ],
+    "symptoms": [
+      "HTTP 403 Forbidden",
+      "Page blanche ou message d'erreur 403",
+      "Accès aux fichiers directs fonctionne mais pas aux répertoires"
+    ],
+    "solutions": [
+      "Créer un fichier index.html ou index.php dans le répertoire",
+      "Vérifier la directive root dans le server block",
+      "Ajouter la directive index avec les bons fichiers (index.html index.php)",
+      "Vérifier les permissions avec ls -la et chmod/chown",
+      "Activer autoindex si l'indexation est souhaitée"
+    ],
+    "verification": [
+      "Vérifier la configuration nginx avec nginx -t",
+      "Vérifier les permissions du répertoire et des fichiers",
+      "Vérifier les logs d'erreur nginx",
+      "Tester l'accès direct à un fichier statique"
+    ],
+    "keywords": [
+      "linux",
+      "nginx",
+      "403",
+      "directory index",
+      "forbidden",
+      "web server",
+      "permissions"
+    ]
+  },
+  {
+    "vendor": "linux",
+    "topic": "web",
+    "component": "nginx",
+    "title": "502 Bad Gateway (upstream error)",
+    "error": "connect() failed (111: Connection refused) while connecting to upstream",
+    "meaning": "Nginx agit comme reverse proxy mais ne peut pas se connecter au backend (PHP-FPM, Node.js, etc.). Le backend est soit arrêté, soit injoignable sur le port/socket configuré.",
+    "possible_causes": [
+      "Le service backend (PHP-FPM, Node.js, etc.) est arrêté",
+      "Le backend écoute sur un port/socket différent de celui configuré dans nginx",
+      "Le backend a atteint sa limite de connexions simultanées",
+      "Firewall bloquant la connexion entre nginx et le backend",
+      "SELinux empêchant la connexion au socket"
+    ],
+    "symptoms": [
+      "HTTP 502 Bad Gateway",
+      "Pages dynamiques non chargées (pages statiques OK)",
+      "Erreurs dans /var/log/nginx/error.log",
+      "Timeout sur les requêtes dynamiques"
+    ],
+    "solutions": [
+      "Vérifier que le service backend est démarré (systemctl status php-fpm)",
+      "Vérifier le port/socket dans nginx.conf et dans la config du backend",
+      "Redémarrer le service backend",
+      "Vérifier les limites de connexions du backend",
+      "Vérifier SELinux avec getenforce et les logs audit",
+      "Vérifier le firewall entre nginx et le backend"
+    ],
+    "verification": [
+      "Vérifier le statut du service backend",
+      "Vérifier les logs nginx et du backend",
+      "Tester la connexion au backend avec curl ou telnet",
+      "Vérifier la configuration nginx avec nginx -t",
+      "Vérifier les processus en écoute avec ss -tlnp"
+    ],
+    "keywords": [
+      "linux",
+      "nginx",
+      "502",
+      "bad gateway",
+      "upstream",
+      "PHP-FPM",
+      "reverse proxy"
+    ]
+  },
+  {
+    "vendor": "linux",
+    "topic": "web",
+    "component": "nginx",
+    "title": "SSL_do_handshake() failed",
+    "error": "SSL_do_handshake() failed (SSL: error:...)",
+    "meaning": "Le handshake TLS/SSL entre Nginx et le client (ou entre Nginx et un backend) a échoué. Cela indique un problème de certificat, de protocole, ou de configuration SSL.",
+    "possible_causes": [
+      "Certificat SSL expiré ou invalide",
+      "Protocole SSL/TLS incompatible entre client et serveur",
+      "Cipher suite non supportée par le client",
+      "Certificat intermédiaire manquant dans la chaîne",
+      "SNI (Server Name Indication) mal configuré",
+      "Client utilisant un ancien protocole (SSLv3, TLS 1.0) désactivé côté serveur"
+    ],
+    "symptoms": [
+      "Erreur SSL dans le navigateur (ERR_SSL_PROTOCOL_ERROR)",
+      "Handshake échoue dans les logs nginx",
+      "Connexion refusée ou timeout SSL",
+      "Certificat affiché comme non valide"
+    ],
+    "solutions": [
+      "Vérifier la validité du certificat avec openssl x509 -in cert.pem -text -noout",
+      "Vérifier la date d'expiration",
+      "S'assurer que la chaîne de certificats complète est configurée",
+      "Ajuster les protocoles et cipher suites dans nginx.conf",
+      "Vérifier la configuration SNI",
+      "Tester avec openssl s_client -connect host:port"
+    ],
+    "verification": [
+      "Vérifier le certificat avec openssl",
+      "Vérifier la chaîne complète",
+      "Tester le handshake avec openssl s_client",
+      "Vérifier les logs nginx",
+      "Tester avec SSL Labs SSL Test"
+    ],
+    "keywords": [
+      "linux",
+      "nginx",
+      "SSL",
+      "TLS",
+      "handshake",
+      "certificate",
+      "cipher",
+      "SNI"
+    ]
+  }
+]

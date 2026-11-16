@@ -1,0 +1,134 @@
+[
+  {
+    "vendor": "generic",
+    "topic": "system",
+    "component": "dns",
+    "title": "Résolution DNS échoue",
+    "error": "DNS resolution failed / NXDOMAIN / Serveur DNS inaccessible",
+    "meaning": "Le système ne parvient pas à résoudre un nom de domaine en adresse IP. Cela empêche l'accès aux services basés sur des noms de domaine.",
+    "possible_causes": [
+      "Serveurs DNS non configurés ou incorrects",
+      "Serveur DNS distant injoignable (panne réseau)",
+      "Firewall bloquant le port UDP 53",
+      "Nom de domaine inexistant (NXDOMAIN)",
+      "Cache DNS corrompu ou obsolète",
+      "Problème de résolution récursive sur le serveur DNS"
+    ],
+    "symptoms": [
+      "Impossible d'accéder aux sites web par nom de domaine",
+      "L'accès par adresse IP fonctionne",
+      "Erreur NXDOMAIN dans les logs",
+      "Timeout sur les requêtes DNS",
+      "Applications dépendantes de DNS non fonctionnelles"
+    ],
+    "solutions": [
+      "Vérifier la configuration DNS avec cat /etc/resolv.conf ou ipconfig /all",
+      "Tester la résolution avec nslookup ou dig",
+      "Changer de serveurs DNS (8.8.8.8, 1.1.1.1)",
+      "Vider le cache DNS (systemd-resolve --flush-caches ou ipconfig /flushdns)",
+      "Vérifier la connectivité vers le serveur DNS avec ping",
+      "Vérifier les règles firewall pour UDP/TCP 53"
+    ],
+    "verification": [
+      "Tester avec dig @8.8.8.8 google.com",
+      "Vérifier /etc/resolv.conf",
+      "Vérifier la connectivité vers les DNS",
+      "Vérifier les logs DNS"
+    ],
+    "keywords": [
+      "generic",
+      "DNS",
+      "resolution",
+      "NXDOMAIN",
+      "nameserver",
+      "UDP 53",
+      "connectivity"
+    ]
+  },
+  {
+    "vendor": "generic",
+    "topic": "system",
+    "component": "network",
+    "title": "Disque plein (no space left on device)",
+    "error": "No space left on device",
+    "meaning": "Le système de fichiers a atteint sa capacité maximale. Aucun nouveau fichier ne peut être créé et les applications écrivant sur le disque échouent.",
+    "possible_causes": [
+      "Fichiers logs ayant grandi de façon anormale",
+      "Fichiers temporaires non nettoyés",
+      "Base de données ayant grandi",
+      "Snapshots ou backups accumulés",
+      "Inode exhaustion (trop de petits fichiers)"
+    ],
+    "symptoms": [
+      "Applications ne pouvant pas écrire de données",
+      "Services crashant",
+      "Impossibilité de se connecter SSH",
+      "Messages d'erreur 'No space left'",
+      "Système très lent"
+    ],
+    "solutions": [
+      "Vérifier l'utilisation avec df -h et du -sh /*",
+      "Identifier les gros fichiers avec du -ah / | sort -rh | head -20",
+      "Vider les logs avec logrotate ou rm",
+      "Nettoyer les fichiers temporaires /tmp et /var/tmp",
+      "Supprimer les vieux packages avec apt autoremove ou yum autoremove",
+      "Vérifier les inodes avec df -i"
+    ],
+    "verification": [
+      "Vérifier l'espace disque avec df -h",
+      "Vérifier les inodes avec df -i",
+      "Identifier les plus gros répertoires",
+      "Vérifier que l'espace est libéré"
+    ],
+    "keywords": [
+      "generic",
+      "disk full",
+      "no space left",
+      "storage",
+      "filesystem",
+      "inode",
+      "cleanup"
+    ]
+  },
+  {
+    "vendor": "generic",
+    "topic": "system",
+    "component": "network",
+    "title": "Port déjà utilisé (Address already in use)",
+    "error": "bind: Address already in use",
+    "meaning": "Une application tente de démarrer et d'écouter sur un port TCP/UDP qui est déjà utilisé par un autre processus.",
+    "possible_causes": [
+      "Un autre processus utilise déjà ce port",
+      "Le processus précédent ne s'est pas terminé correctement (zombie)",
+      "Deux instances du même service tentent de démarrer",
+      "Le port est dans l'état TIME_WAIT"
+    ],
+    "symptoms": [
+      "Service ne démarre pas",
+      "Message 'Address already in use'",
+      "Port indisponible pour l'application",
+      "Conflit entre services"
+    ],
+    "solutions": [
+      "Identifier le processus avec ss -tlnp ou lsof -i :{port}",
+      "Tuer le processus occupant le port si non nécessaire",
+      "Changer le port d'écoute de l'application",
+      "Attendre que le port sorte de l'état TIME_WAIT",
+      "Activer SO_REUSEADDR dans l'application"
+    ],
+    "verification": [
+      "Vérifier les ports en écoute avec ss -tlnp",
+      "Vérifier le PID du processus occupant le port",
+      "Tester le démarrage après libération du port"
+    ],
+    "keywords": [
+      "generic",
+      "port",
+      "bind",
+      "address already in use",
+      "socket",
+      "TIME_WAIT",
+      "conflict"
+    ]
+  }
+]

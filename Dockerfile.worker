@@ -1,0 +1,19 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+COPY requirements-worker.txt .
+
+RUN pip install --no-cache-dir -r requirements-worker.txt
+
+COPY app/celery_app.py ./app/celery_app.py
+COPY app/services/summary_service.py ./app/services/summary_service.py
+COPY app/services/log_service.py ./app/services/log_service.py
+COPY app/database ./app/database
+COPY app/prompt ./app/prompt
+COPY app/models/log.py ./app/models/log.py
+COPY app/services/log_analyzer.py ./app/services/log_analyzer.py
+COPY app/services/report_service.py ./app/services/report_service.py
+COPY app/services/prompt_service.py ./app/services/prompt_service.py
+COPY app/services/llm_service.py ./app/services/llm_service.py
+COPY app/config.py ./app/config.py

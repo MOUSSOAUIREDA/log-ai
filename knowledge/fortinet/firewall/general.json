@@ -1,0 +1,86 @@
+[
+  {
+    "vendor": "fortinet",
+    "topic": "firewall",
+    "component": "policy",
+    "title": "Trafic bloqué par policy implicit deny",
+    "error": "Trafic refusé : implicit deny",
+    "meaning": "Sur FortiGate, si aucune policy firewall ne correspond au trafic, la policy implicite de refus (implicit deny) s'applique. Ce comportement est sécurisé par défaut.",
+    "possible_causes": [
+      "Aucune policy ne correspond à la source/destination/service",
+      "Policy existante mais dans le mauvais VDOM",
+      "Policy désactivée",
+      "NAT mal configuré empêchant la correspondance",
+      "Adresse IP source/dst mal définie dans l'objet address"
+    ],
+    "symptoms": [
+      "Trafic refusé dans les logs avec action 'deny'",
+      "Connexion timeout côté client",
+      "Pas de réponse du serveur distant",
+      "Log : 'action=deny policyid=0'"
+    ],
+    "solutions": [
+      "Créer une policy autorisant le trafic avec les bons objets source/destination/service",
+      "Vérifier que la policy est dans le bon VDOM",
+      "Activer la policy si elle est désactivée",
+      "Vérifier la configuration NAT si nécessaire",
+      "Utiliser le Packet Capture pour diagnostiquer"
+    ],
+    "verification": [
+      "Vérifier les policies avec 'show firewall policy'",
+      "Vérifier les logs de trafic",
+      "Utiliser 'diagnose debug flow' pour tracer le paquet",
+      "Vérifier les objets address et service"
+    ],
+    "keywords": [
+      "fortinet",
+      "fortigate",
+      "firewall",
+      "policy",
+      "implicit deny",
+      "VDOM",
+      "NAT"
+    ]
+  },
+  {
+    "vendor": "fortinet",
+    "topic": "firewall",
+    "component": "IPS",
+    "title": "IPS bloque un trafic légitime",
+    "error": "IPS a détecté et bloqué un trafic considéré comme une attaque",
+    "meaning": "Le système de prévention d'intrusion (IPS) de FortiGate a identifié un pattern correspondant à une signature d'attaque et a bloqué le trafic. Cependant, il peut s'agir d'un faux positif.",
+    "possible_causes": [
+      "Signature IPS trop agressive",
+      "Application légitime utilisant un port ou un pattern similaire à une attaque",
+      "Faux positif sur une application personnalisée",
+      "Mise à jour des signatures ayant ajouté une nouvelle règle trop restrictive"
+    ],
+    "symptoms": [
+      "Application légitime inaccessible",
+      "Logs IPS indiquant 'action=blocked'",
+      "Erreurs côté client (connexion refusée)",
+      "Alertes de sécurité dans FortiView"
+    ],
+    "solutions": [
+      "Identifier la signature IPS responsable dans les logs",
+      "Créer une exception IPS pour l'application légitime",
+      "Passer la signature en mode 'monitor' au lieu de 'block'",
+      "Ajuster le seuil de sensibilité du IPS profile",
+      "Contacter le support Fortinet si faux positif confirmé"
+    ],
+    "verification": [
+      "Vérifier les logs IPS",
+      "Identifier la signature exacte",
+      "Tester après création de l'exception",
+      "Vérifier le IPS profile appliqué"
+    ],
+    "keywords": [
+      "fortinet",
+      "IPS",
+      "intrusion prevention",
+      "false positive",
+      "signature",
+      "block"
+    ]
+  }
+]

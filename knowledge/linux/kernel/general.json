@@ -1,0 +1,92 @@
+[
+  {
+    "vendor": "linux",
+    "topic": "kernel",
+    "component": "oom_killer",
+    "title": "OOM Killer a tué un processus",
+    "error": "Out of memory: Kill process {pid} ({process_name}) score {score} or sacrifice child",
+    "meaning": "Le système Linux a épuisé la mémoire RAM disponible. L'OOM Killer (Out-Of-Memory Killer) a sélectionné et tué un processus pour libérer de la mémoire et éviter un crash complet du système.",
+    "possible_causes": [
+      "Fuite de mémoire (memory leak) dans une application",
+      "Trop de processus consommant de la mémoire simultanément",
+      "Swap désactivé ou insuffisant",
+      "Application mal configurée avec des limites de mémoire trop élevées",
+      "Attaque consommant beaucoup de mémoire"
+    ],
+    "symptoms": [
+      "Processus arrêté subitement",
+      "Services indisponibles",
+      "Message OOM dans dmesg ou syslog",
+      "Système très lent avant le kill",
+      "Utilisation mémoire à 100%"
+    ],
+    "solutions": [
+      "Identifier le processus tué et la cause avec dmesg | grep -i oom",
+      "Vérifier l'utilisation mémoire avec free -h et htop",
+      "Activer ou augmenter le swap",
+      "Limiter la mémoire des processus problématiques (cgroups, ulimit)",
+      "Redémarrer le service fuyant",
+      "Mettre à jour l'application si bug connu"
+    ],
+    "verification": [
+      "Vérifier les logs OOM avec dmesg",
+      "Vérifier l'utilisation mémoire avec free, vmstat, htop",
+      "Vérifier les limites de mémoire des processus",
+      "Surveiller l'évolution de la consommation mémoire"
+    ],
+    "keywords": [
+      "linux",
+      "kernel",
+      "OOM",
+      "out of memory",
+      "oom_killer",
+      "memory leak",
+      "RAM"
+    ]
+  },
+  {
+    "vendor": "linux",
+    "topic": "kernel",
+    "component": "network",
+    "title": "Conntrack table full",
+    "error": "nf_conntrack: table full, dropping packet",
+    "meaning": "La table de suivi des connexions Netfilter (conntrack) du noyau Linux est pleine. Les nouveaux paquets ne peuvent pas être suivis et sont perdus.",
+    "possible_causes": [
+      "Nombre excessif de connexions simultanées",
+      "Valeur max de conntrack trop basse pour la charge",
+      "Timeout de conntrack trop élevé",
+      "Attaque DDoS générant des milliers de connexions",
+      "Fuite de connexions (connexions non fermées correctement)"
+    ],
+    "symptoms": [
+      "Nouvelles connexions refusées",
+      "Perte de paquets",
+      "Message dans dmesg/syslog",
+      "Latence élevée",
+      "Services intermittents"
+    ],
+    "solutions": [
+      "Vérifier l'utilisation avec cat /proc/sys/net/netfilter/nf_conntrack_count",
+      "Augmenter nf_conntrack_max avec sysctl",
+      "Réduire les timeouts de conntrack",
+      "Désactiver conntrack si non nécessaire (raw table NOTRACK)",
+      "Identifier et bloquer le trafic anormal",
+      "Augmenter les ressources matérielles"
+    ],
+    "verification": [
+      "Vérifier nf_conntrack_count et nf_conntrack_max",
+      "Vérifier les logs kernel",
+      "Analyser le trafic avec tcpdump ou ss",
+      "Surveiller l'évolution de la table"
+    ],
+    "keywords": [
+      "linux",
+      "kernel",
+      "conntrack",
+      "netfilter",
+      "connection tracking",
+      "table full",
+      "DDoS"
+    ]
+  }
+]
